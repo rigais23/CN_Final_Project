@@ -1,0 +1,80 @@
+import networkx as nx
+import pandas as pd
+from pathlib import Path
+import matplotlib.pyplot as plt
+
+SEED = 1
+
+##############################
+# READ DATA AND GRAPH
+##############################
+def read_data(path):
+    path = Path(path)
+    lines = path.read_text(encoding="utf-8").splitlines()
+
+    single_proteins = []
+    edges = []
+    for line in lines:
+        line = line.strip()
+        if not line:
+            continue
+
+        parts = line.split()
+        if len(parts) == 1: # individual proteins
+            single_proteins.append(parts[0])
+
+        elif "pp" in parts: # protein-protein interaction
+            i = parts.index("pp")
+            p1 = parts[i - 1]
+            p2 = parts[i + 1]
+            edges.append((p1, p2))
+
+    df_nodes = pd.DataFrame({"protein": single_proteins}).drop_duplicates()
+    df_edges = pd.DataFrame(edges, columns=["protein1", "protein2"]).drop_duplicates()
+    return df_nodes, df_edges
+
+
+def load_network(path):
+    _, df = read_data(path)
+    G = nx.from_pandas_edgelist(df, source="protein1", target="protein2")
+    return G
+
+
+##############################
+# MICROSCOPIC DESCRIPTORS
+##############################
+def get_top_k_nodes(values, k=5):
+    return sorted(values.items(), key=lambda item: (-item[1], item[0]))[:k]
+
+
+##############################
+# FAILURES AND ATTACKS
+##############################
+def lcc_relative_size(G, n_original):
+    if G.number_of_nodes() == 0:
+        return 0
+    return len(max(nx.connected_components(G), key=len)) / n_original
+
+def plot_failure_attack(curves, net_name, plot_file):
+    colors = {'random_failure': 'lightblue', 'degree_attack': 'cornflowerblue', 'betweenness_attack': 'darkblue'}
+    labels = {'random_failure': 'Random failure', 'degree_attack': 'Degree attack', 'betweenness_attack': 'Betweenness attack'}
+
+    fig, ax = plt.subplots(figsize=(8, 6))
+    for strategy in ['random_failure', 'degree_attack', 'betweenness_attack']:
+        data = curves[curves['strategy'] == strategy].sort_values('fraction_removed')
+        x = data['fraction_removed'].to_numpy()
+        y = data['relative_lcc_size'].to_numpy()
+        yerr = data['relative_lcc_std'].fillna(0).to_numpy()
+
+        ax.plot(x, y, color=colors[strategy], label=labels[strategy], linewidth=2)
+        if strategy == 'random_failure':
+            ax.fill_between(x, y - yerr, y + yerr, color=colors[strategy], alpha=0.2)
+
+    ax.set_title(f'FAILURES AND ATTACKS: {net_name}', fontsize=14, fontweight='bold')
+    ax.set_xlabel('fraction of nodes removed', fontsize=12)
+    ax.set_ylabel('relative LCC size', fontsize=12)
+    ax.set_ylim(-0.02, 1.02)
+    ax.legend(frameon=False)
+    fig.tight_layout()
+    fig.savefig(plot_file, dpi=300, bbox_inches='tight')
+    plt.close(fig)
