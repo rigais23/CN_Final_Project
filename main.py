@@ -32,6 +32,7 @@ def main(net_name):
 
 
 if __name__ == '__main__':
-    net_name = 'ovarian cancer.sif'
-    main(net_name=net_name)
-    
+   for net_name in ['ovarian cancer.sif', 'breast cancer.sif', 'lung cancer.sif']:
+       main(net_name=net_name)
+  
+
