@@ -1,0 +1,13 @@
+{
+    "n_nodes": 1781,
+    "n_edges": 33421,
+    "min_degree": 1,
+    "max_degree": 471,
+    "avg_degree": 37.53060078607524,
+    "min_ccoeff": 0,
+    "max_ccoeff": 1.0,
+    "avg_ccoeff": 0.41066546761829037,
+    "assortativity": 0.025384608188458755,
+    "lcc_avg_path_length": 2.744510055919735,
+    "lcc_diameter": 7
+}

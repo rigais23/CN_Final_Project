@@ -10,6 +10,7 @@ dependencies = [
     "igraph>=0.11",
     "leidenalg>=0.10",
     "python-louvain>=0.16",        # community (import as community)
+    "infomap>=2.8",
 
     # Data wrangling
     "pandas>=2.2",

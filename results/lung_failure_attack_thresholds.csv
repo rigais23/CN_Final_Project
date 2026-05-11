@@ -1,0 +1,4 @@
+strategy,lcc_threshold,fraction_removed_threshold
+random_failure,0.5,0.48990498812351546
+degree_attack,0.5,0.4501187648456057
+betweenness_attack,0.5,0.41983372921615203
