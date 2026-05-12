@@ -90,17 +90,17 @@
 
 > *Research question: Which proteins are most critical for the propagation of a biological alteration?*
 
-- [ ] Implement a discrete-time **SIS model** on each network:
+- [x] Implement a discrete-time **SIS model** on each network:
   - S = functional protein, I = altered/dysfunctional protein
   - Infected node spreads to each susceptible neighbour with probability λ per timestep
   - Infected node recovers with probability μ per timestep
-- [ ] Explore the (λ, μ) parameter space around the epidemic threshold
-- [ ] Compare propagation dynamics under three seeding strategies:
+- [x] Explore the (λ, μ) parameter space around the epidemic threshold
+- [x] Compare propagation dynamics under three seeding strategies:
   1. Random seed proteins
   2. Seed = top hubs (high degree)
   3. Seed = disease-associated proteins (from DisGeNET)
-- [ ] Metrics to track: fraction of infected nodes at steady state, time to peak, epidemic threshold
-- [ ] Discuss: do disease proteins act as super-spreaders? Does the community structure slow or accelerate propagation?
+- [x] Metrics to track: fraction of infected nodes at steady state, time to peak, epidemic threshold
+- [x] Discuss: do disease proteins act as super-spreaders? Does the community structure slow or accelerate propagation?
 
 **Deliverable:** SIS simulation plots (infected fraction vs. time) for each seeding strategy + comparison across networks.
 
