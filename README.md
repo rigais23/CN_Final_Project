@@ -2,7 +2,7 @@
 
 ## Phase 0 — Setup & Data Preparation
 
-- [ ] Load the three `.sif` networks into Python with NetworkX
+- [x] Load the three `.sif` networks into Python with NetworkX
 - [ ] Clean data: remove isolates, keep only the largest connected component (LCC) for analysis (document how many nodes/edges are dropped)
 - [ ] Map STRING protein IDs to gene names (use `9606.protein.info.v12.0.txt` from STRING)
 - [ ] Download disease-gene metadata:
@@ -19,13 +19,12 @@
 
 > *Research question: What are the structural properties of each cancer-specific network?*
 
-- [ ] Degree distribution — plot on log-log scale, fit power-law vs. log-normal, comment carefully (avoid claiming "scale-free" without justification; prefer "heavy-tailed")
+- [x] Degree distribution — plot on log-log scale, fit power-law vs. log-normal, comment carefully (avoid claiming "scale-free" without justification; prefer "heavy-tailed")
 - [ ] Strength distribution (if you add edge weights from `combined_score`)
-- [ ] Clustering coefficient (global and local distribution)
-- [ ] Average shortest path length and diameter (on LCC)
-- [ ] Assortativity (degree correlation)
+- [x] Clustering coefficient (global and local distribution)
+- [x] Average shortest path length and diameter (on LCC)
+- [x] Assortativity (degree correlation)
 - [ ] Identify hubs: top-k nodes by degree, betweenness centrality, and PageRank
-- [ ] Compare all metrics across the three cancer networks in a summary table
 
 **Deliverable:** Summary table (extend Table 1 from the proposal) + distribution plots for each network.
 
