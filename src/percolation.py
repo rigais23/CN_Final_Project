@@ -89,6 +89,6 @@ def get_failure_attack_analysis(G, net_name, results_dir, micro_file=None, n_rep
     plot_file = os.path.join(results_dir, f'{net_name}_failure_attack.png')
     curves.to_csv(curves_file, index=False)
     thresholds.to_csv(thresholds_file, index=False)
-    plot_failure_attack(curves, net_name, plot_file)
+    plot_failure_attack(curves, thresholds, net_name, plot_file)
 
     return curves, thresholds

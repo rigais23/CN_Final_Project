@@ -62,7 +62,7 @@ def lcc_relative_size(G, n_original):
     return len(max(nx.connected_components(G), key=len)) / n_original
 
 
-def plot_failure_attack(curves, net_name, plot_file):
+def plot_failure_attack(curves, thresholds, net_name, plot_file):
     colors = {'random_failure': 'lightblue', 'degree_attack': 'cornflowerblue', 'betweenness_attack': 'darkblue'}
     labels = {'random_failure': 'Random failure', 'degree_attack': 'Degree attack', 'betweenness_attack': 'Betweenness attack'}
 
@@ -76,6 +76,10 @@ def plot_failure_attack(curves, net_name, plot_file):
         ax.plot(x, y, color=colors[strategy], label=labels[strategy], linewidth=2)
         if strategy == 'random_failure':
             ax.fill_between(x, y - yerr, y + yerr, color=colors[strategy], alpha=0.2)
+
+        threshold = thresholds.loc[thresholds['strategy'] == strategy, 'fraction_removed_threshold'].iloc[0]
+        if not pd.isna(threshold):
+            ax.axvline(threshold, color=colors[strategy], linestyle='--', linewidth=1.5, alpha=0.8, label=f'{labels[strategy]} threshold ({threshold:.2f})')
 
     ax.set_title(f'FAILURES AND ATTACKS: {net_name}', fontsize=14, fontweight='bold')
     ax.set_xlabel('fraction of nodes removed', fontsize=12)
