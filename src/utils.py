@@ -80,7 +80,7 @@ def plot_failure_attack(curves, net_name, plot_file):
     fig.savefig(plot_file, dpi=300, bbox_inches='tight')
     plt.close(fig)
 
-def load_disgenet(data_dir, gene_col='geneSymbol'):
+def load_disgenet(data_dir, gene_col='Gene'):
     files = {
         'ovarian': os.path.join(data_dir, 'disgenet_ovarian.tsv'),
         'breast':  os.path.join(data_dir, 'disgenet_breast.tsv'),
