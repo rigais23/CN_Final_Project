@@ -2,7 +2,7 @@
 
 ## Phase 0 — Setup & Data Preparation
 
-- [ ] Load the three `.sif` networks into Python with NetworkX
+- [x] Load the three `.sif` networks into Python with NetworkX
 - [ ] Clean data: remove isolates, keep only the largest connected component (LCC) for analysis (document how many nodes/edges are dropped)
 - [ ] Map STRING protein IDs to gene names (use `9606.protein.info.v12.0.txt` from STRING)
 - [ ] Download disease-gene metadata:
@@ -19,13 +19,12 @@
 
 > *Research question: What are the structural properties of each cancer-specific network?*
 
-- [ ] Degree distribution — plot on log-log scale, fit power-law vs. log-normal, comment carefully (avoid claiming "scale-free" without justification; prefer "heavy-tailed")
+- [x] Degree distribution — plot on log-log scale, fit power-law vs. log-normal, comment carefully (avoid claiming "scale-free" without justification; prefer "heavy-tailed")
 - [ ] Strength distribution (if you add edge weights from `combined_score`)
-- [ ] Clustering coefficient (global and local distribution)
-- [ ] Average shortest path length and diameter (on LCC)
-- [ ] Assortativity (degree correlation)
+- [x] Clustering coefficient (global and local distribution)
+- [x] Average shortest path length and diameter (on LCC)
+- [x] Assortativity (degree correlation)
 - [ ] Identify hubs: top-k nodes by degree, betweenness centrality, and PageRank
-- [ ] Compare all metrics across the three cancer networks in a summary table
 
 **Deliverable:** Summary table (extend Table 1 from the proposal) + distribution plots for each network.
 
@@ -49,13 +48,13 @@
 > *Research question: Which network exhibits a more defined community structure, and do communities correspond to functional/disease modules?*
 
 ### 3.1 Community Detection
-- [ ] Run at least two algorithms and compare:
+- [x] Run at least two algorithms and compare:
   - **Louvain** (fast, resolution parameter)
   - **Leiden** (more stable, recommended over Louvain)
   - **Infomap** or **SBM** (via graph-tool)
-  - Buscar si hi ha alguna opció millor per PPI.
-- [ ] Compute modularity Q for each method and each network
-- [ ] Assess stability: run each algorithm multiple times, check NMI between runs
+  - Bayesian --> DBSCM.
+- [x] Compute modularity Q for each method and each network
+- [x] Assess stability: run each algorithm multiple times, check NMI between runs
 
 ### 3.2 Biological Validation *(el que ha comentat el profe al mail)*
 - [ ] For each detected community, run **GO enrichment** using g:Profiler (`gprofiler2` Python package):
@@ -74,13 +73,13 @@
 
 > *Research question: How do the networks respond to random failures and targeted attacks?*
 
-- [ ] Define robustness metric: relative size of the LCC after node removal
-- [ ] Simulate three removal strategies:
+- [x] Define robustness metric: relative size of the LCC after node removal
+- [x] Simulate three removal strategies:
   1. **Random failures** — remove nodes uniformly at random
   2. **Targeted attack by degree** — remove highest-degree nodes first
   3. **Targeted attack by betweenness** — remove highest-betweenness nodes first
-- [ ] Plot LCC size vs. fraction of nodes removed for all three strategies, for all three cancer networks
-- [ ] Identify the percolation threshold for each strategy/network
+- [x] Plot LCC size vs. fraction of nodes removed for all three strategies, for all three cancer networks
+- [x] Identify the percolation threshold for each strategy/network
 - [ ] Discuss: which cancer network is most/least robust? Are disease-associated hub proteins especially critical?
 
 **Deliverable:** Robustness curves + percolation threshold table + biological interpretation (e.g. candidate drug targets = high-betweenness disease proteins).
@@ -91,17 +90,17 @@
 
 > *Research question: Which proteins are most critical for the propagation of a biological alteration?*
 
-- [ ] Implement a discrete-time **SIS model** on each network:
+- [x] Implement a discrete-time **SIS model** on each network:
   - S = functional protein, I = altered/dysfunctional protein
   - Infected node spreads to each susceptible neighbour with probability λ per timestep
   - Infected node recovers with probability μ per timestep
-- [ ] Explore the (λ, μ) parameter space around the epidemic threshold
-- [ ] Compare propagation dynamics under three seeding strategies:
+- [x] Explore the (λ, μ) parameter space around the epidemic threshold
+- [x] Compare propagation dynamics under three seeding strategies:
   1. Random seed proteins
   2. Seed = top hubs (high degree)
   3. Seed = disease-associated proteins (from DisGeNET)
-- [ ] Metrics to track: fraction of infected nodes at steady state, time to peak, epidemic threshold
-- [ ] Discuss: do disease proteins act as super-spreaders? Does the community structure slow or accelerate propagation?
+- [x] Metrics to track: fraction of infected nodes at steady state, time to peak, epidemic threshold
+- [x] Discuss: do disease proteins act as super-spreaders? Does the community structure slow or accelerate propagation?
 
 **Deliverable:** SIS simulation plots (infected fraction vs. time) for each seeding strategy + comparison across networks.
 

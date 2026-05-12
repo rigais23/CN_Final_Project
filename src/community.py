@@ -1,104 +1,38 @@
-import json
 import os
-import subprocess
-import sys
-import tempfile
+import random
+
 import graph_tool.all as gt
 import igraph as ig
 import leidenalg
-import matplotlib.pyplot as plt
 import networkx as nx
 import numpy as np
 import pandas as pd
 from sklearn.metrics import normalized_mutual_info_score
 
 import community.community_louvain as community_louvain
-from src.utils import SEED
+from src.utils import SEED, compute_stability, labels_to_communities, plot_communities, plot_community_metrics, summarize_partition
 
-
-def labels_to_communities(labels, nodes):
-    communities = {}
-    for node, label in zip(nodes, labels):
-        communities.setdefault(label, set()).add(node)
-    return list(communities.values())
-
-
-def get_louvain_labels(G, seed=SEED):
-    partition = community_louvain.best_partition(G, random_state=seed)
-    return [partition[node] for node in G.nodes()]
-
-
-def get_greedy_labels(G, seed=SEED):
-    communities = nx.community.greedy_modularity_communities(G)
-    labels = {}
-    for i, community in enumerate(communities):
-        for node in community:
-            labels[node] = i
-    return [labels[node] for node in G.nodes()]
-
-
-def get_leiden_labels(G, seed=SEED):
+def run_infomap(G, seed=SEED):
     nodes = list(G.nodes())
     node_to_idx = {node: i for i, node in enumerate(nodes)}
     edges = [(node_to_idx[u], node_to_idx[v]) for u, v in G.edges()]
+
+    # igraph works with integer node ids
     G_ig = ig.Graph(n=len(nodes), edges=edges, directed=False)
-    partition = leidenalg.find_partition(G_ig, leidenalg.ModularityVertexPartition, seed=seed)
+    ig.set_random_number_generator(random.Random(seed))
+    partition = G_ig.community_infomap(trials=10)
     return partition.membership
 
 
-def get_infomap_labels(G, seed=SEED):
-    nodes = list(G.nodes())
-    edges = list(G.edges())
-    script = """
-import json
-import sys
-import networkx as nx
-import infomap as im
-
-input_file, output_file, seed = sys.argv[1], sys.argv[2], int(sys.argv[3])
-with open(input_file, 'r') as f:
-    data = json.load(f)
-
-G = nx.Graph()
-G.add_nodes_from(data['nodes'])
-G.add_edges_from(data['edges'])
-
-im_runner = im.Infomap(f'--seed {seed} --silent')
-mapping = im_runner.add_networkx_graph(G)
-im_runner.run()
-modules = im_runner.get_modules()
-if data['nodes'][0] in mapping:
-    node_to_id = mapping
-else:
-    node_to_id = {node: node_id for node_id, node in mapping.items()}
-labels = [int(modules[node_to_id[node]]) for node in data['nodes']]
-
-with open(output_file, 'w') as f:
-    json.dump(labels, f)
-"""
-    with tempfile.NamedTemporaryFile('w', suffix='.json', delete=False) as input_file:
-        json.dump({'nodes': nodes, 'edges': edges}, input_file)
-        input_path = input_file.name
-
-    with tempfile.NamedTemporaryFile('r', suffix='.json', delete=False) as output_file:
-        output_path = output_file.name
-
-    subprocess.run([sys.executable, '-c', script, input_path, output_path, str(seed)], check=True)
-    with open(output_path, 'r') as f:
-        labels = json.load(f)
-
-    os.remove(input_path)
-    os.remove(output_path)
-    return labels
-
-
-def get_dcsbm_labels(G, seed=SEED):
+def run_dcsbm(G, seed=SEED):
     nodes = list(G.nodes())
     node_to_idx = {node: i for i, node in enumerate(nodes)}
+    edges = [(node_to_idx[u], node_to_idx[v]) for u, v in G.edges()]
 
+    # graph-tool also needs integer ids
     G_gt = gt.Graph(directed=False)
     G_gt.add_vertex(len(nodes))
-    G_gt.add_edge_list([(node_to_idx[u], node_to_idx[v]) for u, v in G.edges()])
+    G_gt.add_edge_list(edges)
 
     gt.seed_rng(seed)
     state = gt.minimize_blockmodel_dl(G_gt, state_args={'deg_corr': True})
@@ -107,75 +41,104 @@ def get_dcsbm_labels(G, seed=SEED):
     return labels, state.entropy()
 
 
-def plot_community_metrics(metrics, net_name, plot_file):
-    fig, axes = plt.subplots(1, 2, figsize=(11, 4))
-    colors = ['lightblue', 'lightskyblue', 'cornflowerblue', 'royalblue', 'darkblue']
-
-    axes[0].bar(metrics['algorithm'], metrics['n_communities'], color=colors[:len(metrics)])
-    axes[0].set_title('NUMBER OF COMMUNITIES', fontsize=14, fontweight='bold')
-    axes[0].set_ylabel('n communities')
-
-    axes[1].bar(metrics['algorithm'], metrics['modularity'], color=colors[:len(metrics)])
-    axes[1].set_title('MODULARITY', fontsize=14, fontweight='bold')
-    axes[1].set_ylabel('modularity')
-
-    fig.suptitle(f'COMMUNITY DETECTION: {net_name.upper()}', fontsize=16, fontweight='bold')
-    fig.tight_layout()
-    fig.savefig(plot_file, dpi=300, bbox_inches='tight')
-    plt.close(fig)
-
-
 def get_community_detection(G, net_name, results_dir, n_runs=5):
     nodes = list(G.nodes())
-    rows = []
+    metrics_rows = []
     assignments = pd.DataFrame({'node': nodes})
 
-    algorithms = {'louvain': get_louvain_labels,
-                  'greedy': get_greedy_labels,
-                  'leiden': get_leiden_labels,
-                  'infomap': get_infomap_labels}
+    # 1) Louvain
+    louvain_runs = []
+    for i in range(n_runs):
+        # Get the partition that maximizes the modularity
+        partition = community_louvain.best_partition(G, random_state=SEED + i)
+        louvain_runs.append([partition[node] for node in nodes])
 
-    for algo, function in algorithms.items():
-        all_labels = [function(G, seed=SEED + i) for i in range(n_runs)]
-        modularities = [nx.community.modularity(G, labels_to_communities(labels, nodes)) for labels in all_labels]
-        best_idx = int(np.argmax(modularities))
-        labels = all_labels[best_idx]
-        communities = labels_to_communities(labels, nodes)
-        sizes = [len(c) for c in communities]
+    louvain_modularities = [nx.community.modularity(G, labels_to_communities(nodes, labels)) for labels in louvain_runs]
+    louvain_labels = louvain_runs[int(np.argmax(louvain_modularities))]
+    louvain_summary = summarize_partition(G, nodes, louvain_labels, 'louvain')
+    louvain_summary['stability_nmi'] = compute_stability(louvain_runs)
+    metrics_rows.append(louvain_summary)
+    assignments['louvain'] = louvain_labels
 
-        nmi_values = []
-        for i in range(n_runs):
-            for j in range(i + 1, n_runs):
-                nmi_values.append(normalized_mutual_info_score(all_labels[i], all_labels[j]))
+    # 2) Greedy modularity
+    greedy_communities = nx.community.greedy_modularity_communities(G)
+    greedy_labels_dict = {}
+    for i, community in enumerate(greedy_communities):
+        for node in community:
+            greedy_labels_dict[node] = i
 
-        rows.append({
-            'algorithm': algo,
-            'n_communities': len(communities),
-            'modularity': modularities[best_idx],
-            'mean_community_size': float(np.mean(sizes)),
-            'largest_community_size': max(sizes),
-            'stability_nmi': float(np.mean(nmi_values)),
-            'description_length': np.nan
-        })
-        assignments[algo] = labels
+    greedy_labels = [greedy_labels_dict[node] for node in nodes]
+    greedy_summary = summarize_partition(G, nodes, greedy_labels, 'greedy')
+    greedy_summary['stability_nmi'] = np.nan
+    metrics_rows.append(greedy_summary)
+    assignments['greedy'] = greedy_labels
 
-    dcsbm_labels, description_length = get_dcsbm_labels(G, seed=SEED)
-    dcsbm_communities = labels_to_communities(dcsbm_labels, nodes)
-    dcsbm_sizes = [len(c) for c in dcsbm_communities]
-    rows.append({
-        'algorithm': 'dcsbm',
-        'n_communities': len(dcsbm_communities),
-        'modularity': nx.community.modularity(G, dcsbm_communities),
-        'mean_community_size': float(np.mean(dcsbm_sizes)),
-        'largest_community_size': max(dcsbm_sizes),
-        'stability_nmi': np.nan,
-        'description_length': description_length
-    })
-    assignments['dcsbm'] = dcsbm_labels
+    # 3) Leiden
+    node_to_idx = {node: i for i, node in enumerate(nodes)}
+    edges = [(node_to_idx[u], node_to_idx[v]) for u, v in G.edges()]
+    G_ig = ig.Graph(n=len(nodes), edges=edges, directed=False)
 
-    metrics = pd.DataFrame(rows)
+    leiden_runs = []
+    for i in range(n_runs):
+        partition = leidenalg.find_partition(G_ig, leidenalg.ModularityVertexPartition, seed=SEED + i)
+        leiden_runs.append(partition.membership)
+
+    leiden_modularities = [nx.community.modularity(G, labels_to_communities(nodes, labels)) for labels in leiden_runs]
+    leiden_labels = leiden_runs[int(np.argmax(leiden_modularities))]
+    leiden_summary = summarize_partition(G, nodes, leiden_labels, 'leiden')
+    leiden_summary['stability_nmi'] = compute_stability(leiden_runs)
+    metrics_rows.append(leiden_summary)
+    assignments['leiden'] = leiden_labels
+
+    # 4) Infomap
+    infomap_runs = [run_infomap(G, seed=SEED + i) for i in range(n_runs)]
+    infomap_modularities = [nx.community.modularity(G, labels_to_communities(nodes, labels)) for labels in infomap_runs]
+    infomap_labels = infomap_runs[int(np.argmax(infomap_modularities))]
+    infomap_summary = summarize_partition(G, nodes, infomap_labels, 'infomap')
+    infomap_summary['stability_nmi'] = compute_stability(infomap_runs)
+    metrics_rows.append(infomap_summary)
+    assignments['infomap'] = infomap_labels
+
+    # 5) Bayesian approach: degree-corrected stochastic block model
+    dcsbm_labels, description_length = run_dcsbm(G, seed=SEED)
+    dcsbm_summary = summarize_partition(G, nodes, dcsbm_labels, 'DCSBM', description_length) 
+    dcsbm_summary['stability_nmi'] = np.nan
+    metrics_rows.append(dcsbm_summary)
+    assignments['DCSBM'] = dcsbm_labels 
+
+    metrics = pd.DataFrame(metrics_rows)
+    metrics = metrics[['algorithm', 'n_communities', 'modularity', 'mean_community_size', 'largest_community_size', 'stability_nmi', 'description_length']]
+
+    # Pairwise comparison between community partitions 
+    comparison_rows = []
+    algorithms = ['louvain', 'greedy', 'leiden', 'infomap', 'DCSBM'] 
+    for i in range(len(algorithms)):
+        for j in range(i + 1, len(algorithms)):
+            algo_1, algo_2 = algorithms[i], algorithms[j]
+            labels_1, labels_2 = assignments[algo_1].to_numpy(), assignments[algo_2].to_numpy()
+            contingency = pd.crosstab(labels_1, labels_2).to_numpy()
+            row_counts, col_counts = contingency.sum(axis=1), contingency.sum(axis=0)
+            same_1, same_2 = np.sum(row_counts * (row_counts - 1) / 2), np.sum(col_counts * (col_counts - 1) / 2)
+            same_both = np.sum(contingency * (contingency - 1) / 2)
+            union = same_1 + same_2 - same_both
+            p = contingency / len(labels_1)
+            row_p, col_p = p.sum(axis=1), p.sum(axis=0)
+            h1 = -np.sum(row_p[row_p > 0] * np.log(row_p[row_p > 0]))
+            h2 = -np.sum(col_p[col_p > 0] * np.log(col_p[col_p > 0]))
+            expected = np.outer(row_p, col_p)
+            mask = p > 0
+            mi = np.sum(p[mask] * np.log(p[mask] / expected[mask]))
+            vi = h1 + h2 - 2 * mi
+            comparison_rows.append({'algorithm_1': algo_1, 'algorithm_2': algo_2, 
+                                    'jaccard': same_both / union if union > 0 else 1.0, 
+                                    'nmi': normalized_mutual_info_score(labels_1, labels_2), 
+                                    'nvi': min(1, max(0, vi / np.log(len(labels_1)))) if len(labels_1) > 1 else 0})
+    comparison = pd.DataFrame(comparison_rows)
+
     metrics.to_csv(os.path.join(results_dir, f'{net_name}_community_metrics.csv'), index=False)
     assignments.to_csv(os.path.join(results_dir, f'{net_name}_community_assignments.csv'), index=False)
+    comparison.to_csv(os.path.join(results_dir, f'{net_name}_community_comparison.csv'), index=False) 
     plot_community_metrics(metrics, net_name, os.path.join(results_dir, f'{net_name}_community_metrics.png'))
+    plot_communities(G, assignments, net_name, os.path.join(results_dir, f'{net_name}_communities.png')) 
 
     return metrics, assignments

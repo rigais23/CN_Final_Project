@@ -10,7 +10,6 @@ dependencies = [
     "igraph>=0.11",
     "leidenalg>=0.10",
     "python-louvain>=0.16",        # community (import as community)
-    "infomap>=2.8",
 
     # Data wrangling
     "pandas>=2.2",
@@ -30,6 +29,7 @@ dependencies = [
 
     # Utilities
     "tqdm>=4.66",
+    "requests>=2.32",
     "scipy>=1.13",
     "scikit-learn>=1.5",           # AUC, cross-validation for link prediction
 ]
