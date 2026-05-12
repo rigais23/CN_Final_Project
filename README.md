@@ -48,13 +48,13 @@
 > *Research question: Which network exhibits a more defined community structure, and do communities correspond to functional/disease modules?*
 
 ### 3.1 Community Detection
-- [ ] Run at least two algorithms and compare:
+- [x] Run at least two algorithms and compare:
   - **Louvain** (fast, resolution parameter)
   - **Leiden** (more stable, recommended over Louvain)
   - **Infomap** or **SBM** (via graph-tool)
-  - Buscar si hi ha alguna opció millor per PPI.
-- [ ] Compute modularity Q for each method and each network
-- [ ] Assess stability: run each algorithm multiple times, check NMI between runs
+  - Bayesian --> DBSCM.
+- [x] Compute modularity Q for each method and each network
+- [x] Assess stability: run each algorithm multiple times, check NMI between runs
 
 ### 3.2 Biological Validation *(el que ha comentat el profe al mail)*
 - [ ] For each detected community, run **GO enrichment** using g:Profiler (`gprofiler2` Python package):
@@ -73,13 +73,13 @@
 
 > *Research question: How do the networks respond to random failures and targeted attacks?*
 
-- [ ] Define robustness metric: relative size of the LCC after node removal
-- [ ] Simulate three removal strategies:
+- [x] Define robustness metric: relative size of the LCC after node removal
+- [x] Simulate three removal strategies:
   1. **Random failures** — remove nodes uniformly at random
   2. **Targeted attack by degree** — remove highest-degree nodes first
   3. **Targeted attack by betweenness** — remove highest-betweenness nodes first
-- [ ] Plot LCC size vs. fraction of nodes removed for all three strategies, for all three cancer networks
-- [ ] Identify the percolation threshold for each strategy/network
+- [x] Plot LCC size vs. fraction of nodes removed for all three strategies, for all three cancer networks
+- [x] Identify the percolation threshold for each strategy/network
 - [ ] Discuss: which cancer network is most/least robust? Are disease-associated hub proteins especially critical?
 
 **Deliverable:** Robustness curves + percolation threshold table + biological interpretation (e.g. candidate drug targets = high-betweenness disease proteins).
