@@ -3,6 +3,7 @@ import pandas as pd
 from pathlib import Path
 import matplotlib.pyplot as plt
 import os
+import requests
 
 SEED = 1
 
@@ -96,3 +97,28 @@ def load_disgenet(data_dir, gene_col='Gene'):
     disgenet_df = pd.concat(dfs, ignore_index=True)
     disgenet_df.to_csv(os.path.join(data_dir, 'disgenet.tsv'), sep='\t', index=False)
     return disgenet_df
+
+def translate_genes_to_string_ids(gene_list):
+    """
+    Uses the STRING database API to translate Gene Symbols (e.g., BRCA1)
+    to STRING Ensembl IDs (e.g., 9606.ENSP00000357654).
+    """
+    url = "https://string-db.org/api/json/get_string_ids"
+    
+    # The API expects identifiers separated by carriage returns
+    params = {
+        "identifiers": "\r".join(gene_list), 
+        "species": 9606, # Homo sapiens
+        "limit": 1,      # Get the best match
+        "echo_query": 1  # Return the original name too
+    }
+    
+    response = requests.post(url, data=params)
+    
+    translated_ids = []
+    if response.status_code == 200:
+        data = response.json()
+        for entry in data:
+            translated_ids.append(entry["stringId"])
+            
+    return translated_ids
