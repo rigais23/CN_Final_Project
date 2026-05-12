@@ -1,0 +1,31 @@
+ei	N CTs	N variants g	N PMIDs Chemicals	Gene	pLI	Gene Full Name	First Ref.	Last Ref.	N Chemicals	N PMIDs	score	N diseases g	My Score	Disease	DSI g	DPI g	N variants gda
+1.0	0	0	0	LOC106694315		MPO proximal enhancer and promoter region	2000	2007	0	4	0.4	3		LUNG CANCER,PROTECTION AGAINST,IN SMOKERS	0.94	0.17	0
+1.0	0	77	0	CHRNA5		cholinergic receptor nicotinic alpha 5 subunit	2008	2010	0	4	0.4	155		LUNG CANCER SUSCEPTIBILITY 2	0.55	0.79	1
+1.0	0	34	0	MPO	3.2783E-16	myeloperoxidase	2000	2007	0	4	0.4	1099		LUNG CANCER,PROTECTION AGAINST,IN SMOKERS	0.38	0.92	1
+1.0	0	141	0	CHRNA3	2.6717E-10	cholinergic receptor nicotinic alpha 3 subunit	2008	2008	0	3	0.4	198		LUNG CANCER SUSCEPTIBILITY 2	0.53	0.88	1
+1.0	0	245	0	CASP8	0.012308	caspase 8	2007	2008	0	2	0.4	631		LUNG CANCER,PROTECTION AGAINST	0.42	0.88	1
+1.0	0	20	0	CYP2A6	3.0636E-6	cytochrome P450 family 2 subfamily A member 6	1999	1999	0	2	0.4	181		LUNG CANCER,PROTECTION AGAINST	0.54	0.79	0
+1.0	0	716	7	EGFR	0.98131	epidermal growth factor receptor	2007	2025	6	15	0.3	2644		Adenosquamous cell lung cancer	0.29	0.88	2
+0.8461538461538461	0	20	2	CD274	0.98199	CD274 molecule	2020	2025	3	13	0.3	1824		Metastatic non-small cell lung cancer	0.32	0.88	0
+0.9	0	716	5	EGFR	0.98131	epidermal growth factor receptor	2020	2025	5	10	0.3	2644		Metastatic non-small cell lung cancer	0.29	0.88	0
+1.0	0	26	3	PDCD1	0.029477	programmed cell death 1	2019	2025	4	7	0.2	1745		Metastatic non-small cell lung cancer	0.33	0.92	0
+1.0	0	549	2	FGFR1	1.0	fibroblast growth factor receptor 1	2015	2022	2	7	0.2	1542		Squamous non-small cell lung cancer (disorder)	0.35	0.92	0
+0.8333333333333334	0	2527	2	ALK	3.5482E-6	ALK receptor tyrosine kinase	2021	2026	2	6	0.2	944		Metastatic non-small cell lung cancer	0.39	0.88	0
+1.0	0	341	1	FGFR2	1.0	fibroblast growth factor receptor 2	2015	2025	2	6	0.2	1372		Squamous non-small cell lung cancer (disorder)	0.36	0.88	0
+1.0	0	1204	1	STK11	0.99991	serine/threonine kinase 11	2020	2025	1	3	0.2	664		Metastatic non-small cell lung cancer	0.42	0.88	0
+1.0	0	2527	1	ALK	3.5482E-6	ALK receptor tyrosine kinase	2018	2022	1	3	0.2	944		Adenosquamous cell lung cancer	0.39	0.88	0
+1.0	0	39	1	ROS1	3.4313E-52	ROS proto-oncogene 1, receptor tyrosine kinase	2016	2021	1	2	0.2	386		Adenosquamous cell lung cancer	0.47	0.88	0
+1.0	0	65	0	TP73	0.28241	tumor protein p73	2011	2026	0	2	0.2	478		Adenosquamous cell lung cancer	0.45	0.83	0
+1.0	0	234	1	KRAS	0.99914	KRAS proto-oncogene, GTPase	2020	2025	1	2	0.2	2050		Metastatic non-small cell lung cancer	0.32	0.88	0
+1.0	0	104	2	ERBB2	0.059432	erb-b2 receptor tyrosine kinase 2	2021	2025	2	2	0.2	1735		Metastatic non-small cell lung cancer	0.33	0.88	0
+1.0	0	549	2	BRAF	1.0	B-Raf proto-oncogene, serine/threonine kinase	2022	2025	4	2	0.2	1965		Metastatic non-small cell lung cancer	0.33	0.88	1
+1.0	0	16	1	KEAP1	0.08516	kelch like ECH associated protein 1	2022	2025	1	2	0.2	483		Metastatic non-small cell lung cancer	0.44	0.88	0
+1.0	0	20	0	CD274	0.98199	CD274 molecule	2020	2023	0	2	0.2	1824		Adenosquamous cell lung cancer	0.32	0.88	0
+1.0	0	234	0	KRAS	0.99914	KRAS proto-oncogene, GTPase	2016	2017	0	2	0.2	2050		Adenosquamous cell lung cancer	0.32	0.88	1
+1.0	0	162	0	MTOR	1.0	mechanistic target of rapamycin kinase	2022	2022	0	1	0.15	1920		Adenosquamous cell lung cancer	0.33	0.92	0
+1.0	0	1939	0	RB1	1.0	RB transcriptional corepressor 1	2025	2025	0	1	0.1	1073		Small cell lung cancer metastatic	0.37	0.88	0
+1.0	0	7909	0	NF1	0.99938	neurofibromin 1	2021	2021	0	1	0.1	951		Metastatic non-small cell lung cancer	0.39	0.88	0
+1.0	0	67	0	MAPK10	0.90481	mitogen-activated protein kinase 10	2026	2026	0	1	0.1	188		Metastatic non-small cell lung cancer	0.55	0.88	0
+1.0	0	54	1	VEGFA	0.1881	vascular endothelial growth factor A	2017	2017	3	1	0.1	3305		Metastatic non-small cell lung cancer	0.28	0.92	0
+1.0	0	45	0	CDC42	0.87196	cell division cycle 42	2024	2024	0	1	0.1	535		Metastatic non-small cell lung cancer	0.44	0.88	0
+1.0	0	5	0	NSG1	0.10366	neuronal vesicle trafficking associated 1	1986	1986	0	1	0.1	1146		Adenosquamous cell lung cancer	0.37	0.88	0

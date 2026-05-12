@@ -9,6 +9,7 @@ from src.community import get_community_detection
 from src.epidemic_spreading import get_sir_analysis
 from src.edge_prediction import get_edge_prediction
 
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(BASE_DIR, 'data')
 RESULTS_DIR = os.path.join(BASE_DIR, 'results')

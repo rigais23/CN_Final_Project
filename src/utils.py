@@ -1,10 +1,11 @@
 import heapq
 import os
+from pathlib import Path
+
+import matplotlib.pyplot as plt
 import networkx as nx
 import numpy as np
 import pandas as pd
-from pathlib import Path
-import matplotlib.pyplot as plt
 import requests
 from sklearn.metrics import normalized_mutual_info_score
 
@@ -59,6 +60,7 @@ def lcc_relative_size(G, n_original):
     if G.number_of_nodes() == 0:
         return 0
     return len(max(nx.connected_components(G), key=len)) / n_original
+
 
 def plot_failure_attack(curves, net_name, plot_file):
     colors = {'random_failure': 'lightblue', 'degree_attack': 'cornflowerblue', 'betweenness_attack': 'darkblue'}
@@ -123,32 +125,32 @@ def plot_community_metrics(metrics, net_name, plot_file):
     colors = ['lightblue', 'lightskyblue', 'cornflowerblue', 'royalblue', 'darkblue']
 
     axes[0].bar(metrics['algorithm'], metrics['n_communities'], color=colors[:len(metrics)])
-    axes[0].set_title('Number of communities', fontsize=14) 
+    axes[0].set_title('Number of communities', fontsize=14)
     axes[0].set_ylabel('n communities')
 
     axes[1].bar(metrics['algorithm'], metrics['modularity'], color=colors[:len(metrics)])
-    axes[1].set_title('Modularity', fontsize=14) 
+    axes[1].set_title('Modularity', fontsize=14)
     axes[1].set_ylabel('modularity')
 
-    fig.suptitle(f'COMMUNITY DETECTION: {net_name}', fontsize=16, fontweight='bold') 
+    fig.suptitle(f'COMMUNITY DETECTION: {net_name}', fontsize=16, fontweight='bold')
     fig.tight_layout()
     fig.savefig(plot_file, dpi=300, bbox_inches='tight')
     plt.close(fig)
 
 
-def plot_communities(G, assignments, net_name, plot_file): 
+def plot_communities(G, assignments, net_name, plot_file):
     algorithms = [column for column in assignments.columns if column != 'node']
     nodes = assignments['node'].tolist()
     G_plot = G.subgraph(nodes).copy()
-    pos = nx.spring_layout(G_plot, seed=SEED, iterations=40) 
+    pos = nx.spring_layout(G_plot, seed=SEED, iterations=40)
 
-    fig = plt.figure(figsize=(13, 8)) 
-    grid = fig.add_gridspec(2, 6) 
-    axes = [fig.add_subplot(grid[0, 0:2]), 
-            fig.add_subplot(grid[0, 2:4]), 
-            fig.add_subplot(grid[0, 4:6]), 
-            fig.add_subplot(grid[1, 1:3]), 
-            fig.add_subplot(grid[1, 3:5])] 
+    fig = plt.figure(figsize=(13, 8))
+    grid = fig.add_gridspec(2, 6)
+    axes = [fig.add_subplot(grid[0, 0:2]),
+            fig.add_subplot(grid[0, 2:4]),
+            fig.add_subplot(grid[0, 4:6]),
+            fig.add_subplot(grid[1, 1:3]),
+            fig.add_subplot(grid[1, 3:5])]
     cmap = plt.cm.Blues
 
     for i, algorithm in enumerate(algorithms):
@@ -161,10 +163,10 @@ def plot_communities(G, assignments, net_name, plot_file):
 
         nx.draw_networkx_edges(G_plot, pos, ax=ax, edge_color='lightsteelblue', width=0.15, alpha=0.12)
         nx.draw_networkx_nodes(G_plot, pos, ax=ax, node_color=node_colors, node_size=7, linewidths=0, alpha=0.95)
-        ax.set_title('DCSBM' if algorithm == 'DCSBM' else algorithm.capitalize(), fontsize=12) 
+        ax.set_title('DCSBM' if algorithm == 'DCSBM' else algorithm.capitalize(), fontsize=12)
         ax.axis('off')
 
-    fig.suptitle(f'COMMUNITIES: {net_name}', fontsize=16, fontweight='bold') 
+    fig.suptitle(f'COMMUNITIES: {net_name}', fontsize=16, fontweight='bold')
     fig.tight_layout()
     fig.savefig(plot_file, dpi=300, bbox_inches='tight')
     plt.close(fig)
@@ -215,40 +217,31 @@ def load_disgenet(data_dir, gene_col='Gene'):
     disgenet_df.to_csv(os.path.join(data_dir, 'disgenet.tsv'), sep='\t', index=False)
     return disgenet_df
 
+
 def translate_genes_to_string_ids(gene_list):
     """
-    Uses the STRING database API to translate Gene Symbols (e.g., BRCA1)
-    to STRING Ensembl IDs (e.g., 9606.ENSP00000357654).
+    Uses the STRING database API to translate Gene Symbols to STRING Ensembl IDs.
     """
     url = "https://string-db.org/api/json/get_string_ids"
-    
-    # The API expects identifiers separated by carriage returns
-    params = {
-        "identifiers": "\r".join(gene_list), 
-        "species": 9606, # Homo sapiens
-        "limit": 1,      # Get the best match
-        "echo_query": 1  # Return the original name too
-    }
-    
+    params = {"identifiers": "\r".join(gene_list), "species": 9606, "limit": 1, "echo_query": 1}
     response = requests.post(url, data=params)
-    
+
     translated_ids = []
     if response.status_code == 200:
         data = response.json()
         for entry in data:
             translated_ids.append(entry["stringId"])
-            
+
     return translated_ids
 
 
 ##############################
 # EDGE PREDICTION
 ##############################
-def get_top_edges(predictions, top_k): 
+def get_top_edges(predictions, top_k):
     if top_k <= 0:
         return []
 
     # Keep only the strongest candidate missing edges.
     top_edges = heapq.nlargest(top_k, predictions, key=lambda item: item[2])
     return sorted(top_edges, key=lambda item: (-item[2], str(item[0]), str(item[1])))
-
