@@ -1,0 +1,31 @@
+ei	N CTs	N variants g	N PMIDs Chemicals	Gene	pLI	Gene Full Name	First Ref.	Last Ref.	N Chemicals	N PMIDs	score	N diseases g	My Score	Disease	DSI g	DPI g	N variants gda
+0.9929185634800203	10	6736	1	BRCA1	1.4282E-34	BRCA1 DNA repair associated	1975	2026	1	1977	1.0	1216		Hereditary Breast and Ovarian Cancer Syndrome	0.37	0.88	4269
+0.9948805460750854	10	10584	1	BRCA2	5.7691E-44	BRCA2 DNA repair associated	1952	2026	1	1758	1.0	996		Hereditary Breast and Ovarian Cancer Syndrome	0.39	0.88	7470
+0.99	1	1039	0	RAD51C	2.9852E-13	RAD51 paralog C	2003	2026	0	100	1.0	316		Hereditary Breast and Ovarian Cancer Syndrome	0.49	0.83	64
+0.9824561403508771	1	870	0	RAD51D	1.752E-11	RAD51 paralog D	2011	2026	0	57	1.0	122		Hereditary Breast and Ovarian Cancer Syndrome	0.57	0.58	71
+0.983739837398374	1	3234	0	PALB2	1.1821E-19	partner and localizer of BRCA2	2007	2026	0	123	0.95	418		Hereditary Breast and Ovarian Cancer Syndrome	0.47	0.83	105
+0.9777777777777777	1	8819	0	ATM	1.2568E-69	ATM serine/threonine kinase	1999	2026	0	45	0.85	1076		Hereditary Breast and Ovarian Cancer Syndrome	0.38	0.88	94
+0.9673202614379085	0	2029	0	CHEK2	2.7688E-14	checkpoint kinase 2	1982	2026	0	153	0.7	575		Hereditary Breast and Ovarian Cancer Syndrome	0.43	0.88	91
+1.0	1	3027	1	BRIP1	8.2865E-19	BRCA1 interacting DNA helicase 1	2005	2026	1	81	0.7	342		Hereditary Breast and Ovarian Cancer Syndrome	0.49	0.88	76
+0.9361702127659575	0	1731	0	TP53	0.99795	tumor protein p53	1992	2025	0	47	0.7	4377		Hereditary Breast and Ovarian Cancer Syndrome	0.25	0.96	33
+0.9285714285714286	5	2974	0	MLH1	8.378E-4	mutL homolog 1	2000	2023	0	14	0.7	721		Hereditary Breast and Ovarian Cancer Syndrome	0.41	0.88	24
+1.0	5	4740	0	MSH6	7.5535E-20	mutS homolog 6	2000	2024	0	13	0.7	470		Hereditary Breast and Ovarian Cancer Syndrome	0.45	0.88	20
+0.9166666666666666	5	2488	0	PMS2	5.2725E-9	PMS1 homolog 2, mismatch repair system component	2000	2022	0	12	0.7	390		Hereditary Breast and Ovarian Cancer Syndrome	0.47	0.83	12
+1.0	5	3667	0	MSH2	4.4059E-6	mutS homolog 2	2000	2025	0	7	0.7	654		Hereditary Breast and Ovarian Cancer Syndrome	0.42	0.83	18
+1.0	0	1346	0	FANCM	2.2807E-13	FA complementation group M	2018	2023	0	5	0.65	247		Hereditary Breast and Ovarian Cancer Syndrome	0.53	0.88	23
+1.0	0	3027	0	BRIP1	8.2865E-19	BRCA1 interacting DNA helicase 1	2001	2022	0	50	0.6	342		Familial ovarian cancer	0.49	0.88	111
+0.9772727272727273	0	2001	0	BARD1	1.1319E-19	BRCA1 associated RING domain 1	2002	2026	0	44	0.6	151		Hereditary Breast and Ovarian Cancer Syndrome	0.55	0.83	56
+0.9285714285714286	0	1147	0	MRE11	2.4959E-10	MRE11 double strand break repair nuclease	2011	2025	0	14	0.6	274		Hereditary Breast and Ovarian Cancer Syndrome	0.51	0.88	22
+0.8571428571428571	0	2271	0	CDH1	0.85165	cadherin 1	2002	2022	0	7	0.6	1340		Hereditary Breast and Ovarian Cancer Syndrome	0.35	0.88	14
+1.0	0	1063	0	FANCC	2.5882E-14	FA complementation group C	2019	2025	0	3	0.6	320		Hereditary Breast and Ovarian Cancer Syndrome	0.5	0.88	7
+1.0	0	1860	0	PTEN	0.048008	phosphatase and tensin homolog	2000	2020	0	3	0.6	2058		Hereditary Breast and Ovarian Cancer Syndrome	0.32	0.88	4
+1.0	1	1204	0	STK11	0.99991	serine/threonine kinase 11	2001	2020	0	3	0.6	664		Hereditary Breast and Ovarian Cancer Syndrome	0.42	0.88	4
+1.0	0	234	0	KRAS	0.99914	KRAS proto-oncogene, GTPase	2010	2011	0	2	0.6	2050		Hereditary Breast and Ovarian Cancer Syndrome	0.32	0.88	2
+1.0	0	22	0	CDK12	1.0	cyclin dependent kinase 12	2018	2019	0	2	0.6	162		Hereditary Breast and Ovarian Cancer Syndrome	0.54	0.75	2
+1.0	1	1339	0	MUTYH	1.6764E-18	mutY DNA glycosylase	2022	2022	0	1	0.6	326		Hereditary Breast and Ovarian Cancer Syndrome	0.49	0.83	2
+1.0	0	6736	0	BRCA1	1.4282E-34	BRCA1 DNA repair associated	1970	2024	0	1085	0.5	1216		BREAST-OVARIAN CANCER,FAMILIAL,SUSCEPTIBILITY TO,1	0.37	0.88	3824
+1.0	0	2029	0	CHEK2	2.7688E-14	checkpoint kinase 2	2000	2024	0	10	0.5	575		Familial ovarian cancer	0.43	0.88	6
+1.0	0	2001	0	BARD1	1.1319E-19	BRCA1 associated RING domain 1	1998	2020	0	8	0.5	151		Familial ovarian cancer	0.55	0.83	3
+1.0	0	1797	0	NBN	1.6813E-18	nibrin	2012	2026	0	7	0.5	316		Hereditary Breast and Ovarian Cancer Syndrome	0.5	0.83	19
+1.0	0	1204	0	STK11	0.99991	serine/threonine kinase 11	1998	2014	0	5	0.5	664		Familial ovarian cancer	0.42	0.88	6
+1.0	0	40	0	RINT1	3.7142E-15	RAD50 interactor 1	2020	2021	0	2	0.5	72		Hereditary Breast and Ovarian Cancer Syndrome	0.64	0.5	7

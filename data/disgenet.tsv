@@ -1,0 +1,91 @@
+ei	N CTs	N variants g	N PMIDs Chemicals	Gene	pLI	Gene Full Name	First Ref.	Last Ref.	N Chemicals	N PMIDs	score	N diseases g	My Score	Disease	DSI g	DPI g	N variants gda	disease
+0.9929185634800204	10	6736	1	BRCA1	1.4282e-34	BRCA1 DNA repair associated	1975.0	2026.0	1	1977	1.0	1216		Hereditary Breast and Ovarian Cancer Syndrome	0.37	0.88	4269	ovarian
+0.9948805460750854	10	10584	1	BRCA2	5.7691e-44	BRCA2 DNA repair associated	1952.0	2026.0	1	1758	1.0	996		Hereditary Breast and Ovarian Cancer Syndrome	0.39	0.88	7470	ovarian
+0.99	1	1039	0	RAD51C	2.9852e-13	RAD51 paralog C	2003.0	2026.0	0	100	1.0	316		Hereditary Breast and Ovarian Cancer Syndrome	0.49	0.83	64	ovarian
+0.9824561403508772	1	870	0	RAD51D	1.752e-11	RAD51 paralog D	2011.0	2026.0	0	57	1.0	122		Hereditary Breast and Ovarian Cancer Syndrome	0.57	0.58	71	ovarian
+0.983739837398374	1	3234	0	PALB2	1.1821e-19	partner and localizer of BRCA2	2007.0	2026.0	0	123	0.95	418		Hereditary Breast and Ovarian Cancer Syndrome	0.47	0.83	105	ovarian
+0.9777777777777776	1	8819	0	ATM	1.2568e-69	ATM serine/threonine kinase	1999.0	2026.0	0	45	0.85	1076		Hereditary Breast and Ovarian Cancer Syndrome	0.38	0.88	94	ovarian
+0.9673202614379084	0	2029	0	CHEK2	2.7688e-14	checkpoint kinase 2	1982.0	2026.0	0	153	0.7	575		Hereditary Breast and Ovarian Cancer Syndrome	0.43	0.88	91	ovarian
+1.0	1	3027	1	BRIP1	8.286500000000001e-19	BRCA1 interacting DNA helicase 1	2005.0	2026.0	1	81	0.7	342		Hereditary Breast and Ovarian Cancer Syndrome	0.49	0.88	76	ovarian
+0.9361702127659576	0	1731	0	TP53	0.99795	tumor protein p53	1992.0	2025.0	0	47	0.7	4377		Hereditary Breast and Ovarian Cancer Syndrome	0.25	0.96	33	ovarian
+0.9285714285714286	5	2974	0	MLH1	0.0008378	mutL homolog 1	2000.0	2023.0	0	14	0.7	721		Hereditary Breast and Ovarian Cancer Syndrome	0.41	0.88	24	ovarian
+1.0	5	4740	0	MSH6	7.5535e-20	mutS homolog 6	2000.0	2024.0	0	13	0.7	470		Hereditary Breast and Ovarian Cancer Syndrome	0.45	0.88	20	ovarian
+0.9166666666666666	5	2488	0	PMS2	5.2725e-09	PMS1 homolog 2, mismatch repair system component	2000.0	2022.0	0	12	0.7	390		Hereditary Breast and Ovarian Cancer Syndrome	0.47	0.83	12	ovarian
+1.0	5	3667	0	MSH2	4.4059e-06	mutS homolog 2	2000.0	2025.0	0	7	0.7	654		Hereditary Breast and Ovarian Cancer Syndrome	0.42	0.83	18	ovarian
+1.0	0	1346	0	FANCM	2.2807e-13	FA complementation group M	2018.0	2023.0	0	5	0.65	247		Hereditary Breast and Ovarian Cancer Syndrome	0.53	0.88	23	ovarian
+1.0	0	3027	0	BRIP1	8.286500000000001e-19	BRCA1 interacting DNA helicase 1	2001.0	2022.0	0	50	0.6	342		Familial ovarian cancer	0.49	0.88	111	ovarian
+0.9772727272727272	0	2001	0	BARD1	1.1319000000000002e-19	BRCA1 associated RING domain 1	2002.0	2026.0	0	44	0.6	151		Hereditary Breast and Ovarian Cancer Syndrome	0.55	0.83	56	ovarian
+0.9285714285714286	0	1147	0	MRE11	2.4959e-10	MRE11 double strand break repair nuclease	2011.0	2025.0	0	14	0.6	274		Hereditary Breast and Ovarian Cancer Syndrome	0.51	0.88	22	ovarian
+0.8571428571428571	0	2271	0	CDH1	0.85165	cadherin 1	2002.0	2022.0	0	7	0.6	1340		Hereditary Breast and Ovarian Cancer Syndrome	0.35	0.88	14	ovarian
+1.0	0	1063	0	FANCC	2.5882e-14	FA complementation group C	2019.0	2025.0	0	3	0.6	320		Hereditary Breast and Ovarian Cancer Syndrome	0.5	0.88	7	ovarian
+1.0	0	1860	0	PTEN	0.048008	phosphatase and tensin homolog	2000.0	2020.0	0	3	0.6	2058		Hereditary Breast and Ovarian Cancer Syndrome	0.32	0.88	4	ovarian
+1.0	1	1204	0	STK11	0.99991	serine/threonine kinase 11	2001.0	2020.0	0	3	0.6	664		Hereditary Breast and Ovarian Cancer Syndrome	0.42	0.88	4	ovarian
+1.0	0	234	0	KRAS	0.99914	KRAS proto-oncogene, GTPase	2010.0	2011.0	0	2	0.6	2050		Hereditary Breast and Ovarian Cancer Syndrome	0.32	0.88	2	ovarian
+1.0	0	22	0	CDK12	1.0	cyclin dependent kinase 12	2018.0	2019.0	0	2	0.6	162		Hereditary Breast and Ovarian Cancer Syndrome	0.54	0.75	2	ovarian
+1.0	1	1339	0	MUTYH	1.6764e-18	mutY DNA glycosylase	2022.0	2022.0	0	1	0.6	326		Hereditary Breast and Ovarian Cancer Syndrome	0.49	0.83	2	ovarian
+1.0	0	6736	0	BRCA1	1.4282e-34	BRCA1 DNA repair associated	1970.0	2024.0	0	1085	0.5	1216		BREAST-OVARIAN CANCER,FAMILIAL,SUSCEPTIBILITY TO,1	0.37	0.88	3824	ovarian
+1.0	0	2029	0	CHEK2	2.7688e-14	checkpoint kinase 2	2000.0	2024.0	0	10	0.5	575		Familial ovarian cancer	0.43	0.88	6	ovarian
+1.0	0	2001	0	BARD1	1.1319000000000002e-19	BRCA1 associated RING domain 1	1998.0	2020.0	0	8	0.5	151		Familial ovarian cancer	0.55	0.83	3	ovarian
+1.0	0	1797	0	NBN	1.6813e-18	nibrin	2012.0	2026.0	0	7	0.5	316		Hereditary Breast and Ovarian Cancer Syndrome	0.5	0.83	19	ovarian
+1.0	0	1204	0	STK11	0.99991	serine/threonine kinase 11	1998.0	2014.0	0	5	0.5	664		Familial ovarian cancer	0.42	0.88	6	ovarian
+1.0	0	40	0	RINT1	3.7142e-15	RAD50 interactor 1	2020.0	2021.0	0	2	0.5	72		Hereditary Breast and Ovarian Cancer Syndrome	0.64	0.5	7	ovarian
+0.946236559139785	0	832	43	ESR1	0.99791	estrogen receptor 1	1988.0	2026.0	21	186	0.5	1778		Oestrogen receptor positive breast cancer	0.34	0.92	2	breast
+	0	8819	0	ATM	1.2568e-69	ATM serine/threonine kinase			0	0	0.4	1076		Breast Cancer,Familial Male	0.38	0.88	1	breast
+1.0	0	104	6	ERBB2	0.059432	erb-b2 receptor tyrosine kinase 2	2009.0	2025.0	2	45	0.35	1735		HER2 negative breast cancer	0.33	0.88	2	breast
+0.967741935483871	0	188	6	ABI3BP	8.88e-43	ABI family member 3 binding protein	1999.0	2025.0	3	31	0.35	351		Oestrogen receptor positive breast cancer	0.48	0.88	0	breast
+0.967741935483871	0	2	6	SFN	0.96481	stratifin	1999.0	2025.0	3	31	0.35	407		Oestrogen receptor positive breast cancer	0.47	0.88	0	breast
+0.967741935483871	0	6	6	HBS1L	9.7144e-05	HBS1 like translational GTPase	1999.0	2025.0	3	31	0.35	382		Oestrogen receptor positive breast cancer	0.47	0.88	0	breast
+0.8333333333333334	0	376	3	PIK3CA	1.0	phosphatidylinositol-4,5-bisphosphate 3-kinase catalytic subunit alpha	2009.0	2025.0	4	18	0.35	1845		Oestrogen receptor positive breast cancer	0.33	0.88	1	breast
+0.9166666666666666	0	1731	2	TP53	0.99795	tumor protein p53	2005.0	2022.0	1	12	0.35	4377		Oestrogen receptor positive breast cancer	0.25	0.96	2	breast
+1.0	0	407	5	STAT3	1.0	signal transducer and activator of transcription 3	2014.0	2025.0	4	10	0.35	1976		Oestrogen receptor positive breast cancer	0.32	0.88	0	breast
+1.0	0	162	3	MTOR	1.0	mechanistic target of rapamycin kinase	2010.0	2023.0	3	10	0.35	1920		Oestrogen receptor positive breast cancer	0.33	0.92	1	breast
+0.9433962264150944	0	6736	3	BRCA1	1.4282e-34	BRCA1 DNA repair associated	2001.0	2026.0	1	53	0.3	1216		Contralateral breast cancer	0.37	0.88	0	breast
+1.0	0	10584	1	BRCA2	5.7691e-44	BRCA2 DNA repair associated	2001.0	2024.0	1	27	0.3	996		Contralateral breast cancer	0.39	0.88	0	breast
+0.8333333333333334	0	104	5	ERBB2	0.059432	erb-b2 receptor tyrosine kinase 2	2004.0	2025.0	3	18	0.3	1735		Oestrogen receptor positive breast cancer	0.33	0.88	0	breast
+0.8666666666666667	0	104	1	ERBB2	0.059432	erb-b2 receptor tyrosine kinase 2	2002.0	2024.0	1	15	0.3	1735		Locally advanced breast cancer (disorder)	0.33	0.88	0	breast
+1.0	0	302	1	CYP19A1	0.015987	cytochrome P450 family 19 subfamily A member 1	2003.0	2025.0	2	15	0.3	614		Oestrogen receptor positive breast cancer	0.44	0.88	0	breast
+1.0	0	384	1	AR		androgen receptor	2013.0	2023.0	1	11	0.3	1314		Oestrogen receptor positive breast cancer	0.36	0.88	0	breast
+0.8	0	716	6	EGFR	0.98131	epidermal growth factor receptor	1994.0	2026.0	2	10	0.3	2644		Oestrogen receptor positive breast cancer	0.29	0.88	0	breast
+0.6	0	30	2	CCND1	0.71899	cyclin D1	1996.0	2025.0	2	10	0.3	1403		Oestrogen receptor positive breast cancer	0.35	0.88	0	breast
+0.7142857142857143	0	341	0	FGFR2	1.0	fibroblast growth factor receptor 2	2009.0	2024.0	0	7	0.3	1372		Oestrogen receptor positive breast cancer	0.36	0.88	2	breast
+1.0	0	228	4	AKT1	0.99533	AKT serine/threonine kinase 1	2011.0	2025.0	4	9	0.25	2243		Oestrogen receptor positive breast cancer	0.31	0.88	2	breast
+0.75	0	6736	4	BRCA1	1.4282e-34	BRCA1 DNA repair associated	2018.0	2025.0	6	8	0.25	1216		HER2 negative breast cancer	0.37	0.88	0	breast
+0.8333333333333334	0	6	1	FOXM1	0.59534	forkhead box M1	2014.0	2025.0	1	6	0.25	445		Oestrogen receptor positive breast cancer	0.45	0.83	0	breast
+1.0	0	6	0	PRL	1.8838e-09	prolactin	2013.0	2024.0	0	6	0.25	961		Oestrogen receptor positive breast cancer	0.4	0.92	0	breast
+0.4	0	8819	0	ATM	1.2568e-69	ATM serine/threonine kinase	2008.0	2023.0	0	5	0.25	1076		Contralateral breast cancer	0.38	0.88	0	breast
+0.8	0	4	1	APOBEC3B	6.1789e-07	apolipoprotein B mRNA editing enzyme catalytic subunit 3B	2014.0	2016.0	1	5	0.25	145		Oestrogen receptor positive breast cancer	0.55	0.71	0	breast
+1.0	0	40	1	IL6	0.19935	interleukin 6	2015.0	2024.0	1	5	0.25	4574		Oestrogen receptor positive breast cancer	0.25	0.96	0	breast
+1.0	0	10584	1	BRCA2	5.7691e-44	BRCA2 DNA repair associated	2011.0	2024.0	1	4	0.25	996		Oestrogen receptor positive breast cancer	0.39	0.88	0	breast
+1.0	0	542	0	IGF1R	1.0	insulin like growth factor 1 receptor	2011.0	2022.0	0	3	0.25	1120		Oestrogen receptor positive breast cancer	0.38	0.88	0	breast
+1.0	0	493	1	CDK4	0.5637	cyclin dependent kinase 4	2020.0	2023.0	1	3	0.25	605		Oestrogen receptor positive breast cancer	0.42	0.83	0	breast
+1.0	0	33	1	CDKN2B	0.00055537	cyclin dependent kinase inhibitor 2B	2020.0	2023.0	2	3	0.25	614		Oestrogen receptor positive breast cancer	0.43	0.88	0	breast
+1.0	0	0	0	LOC106694315		MPO proximal enhancer and promoter region	2000.0	2007.0	0	4	0.4	3		LUNG CANCER,PROTECTION AGAINST,IN SMOKERS	0.94	0.17	0	lung
+1.0	0	77	0	CHRNA5		cholinergic receptor nicotinic alpha 5 subunit	2008.0	2010.0	0	4	0.4	155		LUNG CANCER SUSCEPTIBILITY 2	0.55	0.79	1	lung
+1.0	0	34	0	MPO	3.2783e-16	myeloperoxidase	2000.0	2007.0	0	4	0.4	1099		LUNG CANCER,PROTECTION AGAINST,IN SMOKERS	0.38	0.92	1	lung
+1.0	0	141	0	CHRNA3	2.6717e-10	cholinergic receptor nicotinic alpha 3 subunit	2008.0	2008.0	0	3	0.4	198		LUNG CANCER SUSCEPTIBILITY 2	0.53	0.88	1	lung
+1.0	0	245	0	CASP8	0.012308	caspase 8	2007.0	2008.0	0	2	0.4	631		LUNG CANCER,PROTECTION AGAINST	0.42	0.88	1	lung
+1.0	0	20	0	CYP2A6	3.0636e-06	cytochrome P450 family 2 subfamily A member 6	1999.0	1999.0	0	2	0.4	181		LUNG CANCER,PROTECTION AGAINST	0.54	0.79	0	lung
+1.0	0	716	7	EGFR	0.98131	epidermal growth factor receptor	2007.0	2025.0	6	15	0.3	2644		Adenosquamous cell lung cancer	0.29	0.88	2	lung
+0.8461538461538461	0	20	2	CD274	0.98199	CD274 molecule	2020.0	2025.0	3	13	0.3	1824		Metastatic non-small cell lung cancer	0.32	0.88	0	lung
+0.9	0	716	5	EGFR	0.98131	epidermal growth factor receptor	2020.0	2025.0	5	10	0.3	2644		Metastatic non-small cell lung cancer	0.29	0.88	0	lung
+1.0	0	26	3	PDCD1	0.029477	programmed cell death 1	2019.0	2025.0	4	7	0.2	1745		Metastatic non-small cell lung cancer	0.33	0.92	0	lung
+1.0	0	549	2	FGFR1	1.0	fibroblast growth factor receptor 1	2015.0	2022.0	2	7	0.2	1542		Squamous non-small cell lung cancer (disorder)	0.35	0.92	0	lung
+0.8333333333333334	0	2527	2	ALK	3.5482e-06	ALK receptor tyrosine kinase	2021.0	2026.0	2	6	0.2	944		Metastatic non-small cell lung cancer	0.39	0.88	0	lung
+1.0	0	341	1	FGFR2	1.0	fibroblast growth factor receptor 2	2015.0	2025.0	2	6	0.2	1372		Squamous non-small cell lung cancer (disorder)	0.36	0.88	0	lung
+1.0	0	1204	1	STK11	0.99991	serine/threonine kinase 11	2020.0	2025.0	1	3	0.2	664		Metastatic non-small cell lung cancer	0.42	0.88	0	lung
+1.0	0	2527	1	ALK	3.5482e-06	ALK receptor tyrosine kinase	2018.0	2022.0	1	3	0.2	944		Adenosquamous cell lung cancer	0.39	0.88	0	lung
+1.0	0	39	1	ROS1	3.4312999999999996e-52	ROS proto-oncogene 1, receptor tyrosine kinase	2016.0	2021.0	1	2	0.2	386		Adenosquamous cell lung cancer	0.47	0.88	0	lung
+1.0	0	65	0	TP73	0.28241	tumor protein p73	2011.0	2026.0	0	2	0.2	478		Adenosquamous cell lung cancer	0.45	0.83	0	lung
+1.0	0	234	1	KRAS	0.99914	KRAS proto-oncogene, GTPase	2020.0	2025.0	1	2	0.2	2050		Metastatic non-small cell lung cancer	0.32	0.88	0	lung
+1.0	0	104	2	ERBB2	0.059432	erb-b2 receptor tyrosine kinase 2	2021.0	2025.0	2	2	0.2	1735		Metastatic non-small cell lung cancer	0.33	0.88	0	lung
+1.0	0	549	2	BRAF	1.0	B-Raf proto-oncogene, serine/threonine kinase	2022.0	2025.0	4	2	0.2	1965		Metastatic non-small cell lung cancer	0.33	0.88	1	lung
+1.0	0	16	1	KEAP1	0.08516	kelch like ECH associated protein 1	2022.0	2025.0	1	2	0.2	483		Metastatic non-small cell lung cancer	0.44	0.88	0	lung
+1.0	0	20	0	CD274	0.98199	CD274 molecule	2020.0	2023.0	0	2	0.2	1824		Adenosquamous cell lung cancer	0.32	0.88	0	lung
+1.0	0	234	0	KRAS	0.99914	KRAS proto-oncogene, GTPase	2016.0	2017.0	0	2	0.2	2050		Adenosquamous cell lung cancer	0.32	0.88	1	lung
+1.0	0	162	0	MTOR	1.0	mechanistic target of rapamycin kinase	2022.0	2022.0	0	1	0.15	1920		Adenosquamous cell lung cancer	0.33	0.92	0	lung
+1.0	0	1939	0	RB1	1.0	RB transcriptional corepressor 1	2025.0	2025.0	0	1	0.1	1073		Small cell lung cancer metastatic	0.37	0.88	0	lung
+1.0	0	7909	0	NF1	0.99938	neurofibromin 1	2021.0	2021.0	0	1	0.1	951		Metastatic non-small cell lung cancer	0.39	0.88	0	lung
+1.0	0	67	0	MAPK10	0.90481	mitogen-activated protein kinase 10	2026.0	2026.0	0	1	0.1	188		Metastatic non-small cell lung cancer	0.55	0.88	0	lung
+1.0	0	54	1	VEGFA	0.1881	vascular endothelial growth factor A	2017.0	2017.0	3	1	0.1	3305		Metastatic non-small cell lung cancer	0.28	0.92	0	lung
+1.0	0	45	0	CDC42	0.87196	cell division cycle 42	2024.0	2024.0	0	1	0.1	535		Metastatic non-small cell lung cancer	0.44	0.88	0	lung
+1.0	0	5	0	NSG1	0.10366	neuronal vesicle trafficking associated 1	1986.0	1986.0	0	1	0.1	1146		Adenosquamous cell lung cancer	0.37	0.88	0	lung
