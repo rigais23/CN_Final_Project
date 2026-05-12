@@ -2,6 +2,7 @@ import networkx as nx
 import pandas as pd
 from pathlib import Path
 import matplotlib.pyplot as plt
+import os
 
 SEED = 1
 
@@ -78,3 +79,20 @@ def plot_failure_attack(curves, net_name, plot_file):
     fig.tight_layout()
     fig.savefig(plot_file, dpi=300, bbox_inches='tight')
     plt.close(fig)
+
+def load_disgenet(data_dir, gene_col='geneSymbol'):
+    files = {
+        'ovarian': os.path.join(data_dir, 'disgenet_ovarian.tsv'),
+        'breast':  os.path.join(data_dir, 'disgenet_breast.tsv'),
+        'lung':    os.path.join(data_dir, 'disgenet_lung.tsv'),
+    }
+
+    dfs = []
+    for disease, path in files.items():
+        df = pd.read_csv(path, sep='\t')
+        df['disease'] = disease
+        dfs.append(df)
+
+    disgenet_df = pd.concat(dfs, ignore_index=True)
+    disgenet_df.to_csv(os.path.join(data_dir, 'disgenet.tsv'), sep='\t', index=False)
+    return disgenet_df
