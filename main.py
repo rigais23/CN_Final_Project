@@ -38,5 +38,5 @@ if __name__ == '__main__':
 
     for net_name in ['ovarian cancer.sif', 'breast cancer.sif', 'lung cancer.sif']:
         net = net_name.split('.')[0].split(' ')[0]
-        disease_genes = disgenet[disgenet['disease'] == net]['gene_symbol'].tolist()
+        disease_genes = disgenet[disgenet['disease'] == net]['Gene'].tolist()
         main(net_name=net_name, disease_genes=disease_genes)
