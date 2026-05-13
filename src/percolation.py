@@ -25,7 +25,7 @@ def removal_curve(G, removal_order, fractions):
     return pd.DataFrame(rows)
 
 
-def get_failure_attack_analysis(G, net_name, results_dir, micro_file=None, n_rep=20, lcc_threshold=0.5):
+def get_failure_attack_analysis(G, net_name, results_dir, micro_file=None, n_rep=20, lcc_threshold=0.5, disease_genes=None):
     """
     Analyze the network robustness against attacks and random failures
     """
@@ -71,12 +71,34 @@ def get_failure_attack_analysis(G, net_name, results_dir, micro_file=None, n_rep
     betweenness_curve['relative_lcc_std'] = 0
     betweenness_curve['strategy'] = 'betweenness_attack'
 
+    # 4. DISEASE GENES ATTACK
+    strategies_list = [random_curve, degree_curve, betweenness_curve]
+    strategy_names = ['random_failure', 'degree_attack', 'betweenness_attack']
+
+    if disease_genes is not None and len(disease_genes) > 0:
+        # filter disease genes to only the ones present in the LCC
+        valid_disease_genes = [genes for genes in disease_genes if genes in G.nodes()]
+
+        if valid_disease_genes:
+            # Sort disease genes by degree (targeted), then append the rest of the nodes (also sorted by degree)
+            disease_genes_sorted = sorted(valid_disease_genes, key=lambda n: (-G.degree(n), n))
+            rest_nodes = [n for n in G.nodes() if n not in valid_disease_genes]
+            rest_nodes_sorted = sorted(rest_nodes, key=lambda n: (-G.degree(n), n))
+            disease_attack_order = disease_genes_sorted + rest_nodes_sorted
+            disease_attack_curve = removal_curve(G, disease_attack_order, fractions)
+            disease_attack_curve['relative_lcc_std'] = 0
+            disease_attack_curve['strategy'] = 'disease_genes_attack'
+
+            strategies_list.append(disease_attack_curve)
+            strategy_names.append('disease_genes_attack')
+        
+
     # Concatenate results from all strategies
-    curves = pd.concat([random_curve, degree_curve, betweenness_curve], ignore_index=True)
+    curves = pd.concat(strategies_list, ignore_index=True)
 
     # Compute thresholds
     thresholds = []
-    for strategy in ['random_failure', 'degree_attack', 'betweenness_attack']:
+    for strategy in strategy_names:
         strategy_curve = curves[curves['strategy'] == strategy]
         below = strategy_curve[strategy_curve['relative_lcc_size'] <= lcc_threshold]
         threshold_fraction = np.nan if below.empty else below.iloc[0]['fraction_removed']
@@ -87,6 +109,7 @@ def get_failure_attack_analysis(G, net_name, results_dir, micro_file=None, n_rep
     curves_file = os.path.join(results_dir, f'{net_name}_failure_attack_curves.csv')
     thresholds_file = os.path.join(results_dir, f'{net_name}_failure_attack_thresholds.csv')
     plot_file = os.path.join(results_dir, f'{net_name}_failure_attack.png')
+    
     curves.to_csv(curves_file, index=False)
     thresholds.to_csv(thresholds_file, index=False)
     plot_failure_attack(curves, thresholds, net_name, plot_file)

@@ -2,6 +2,8 @@ import os
 import json
 import networkx as nx
 import numpy as np
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
 from scipy.stats import poisson
@@ -145,6 +147,7 @@ def CCDF(net, degree, degree_count):
 
 
 def get_degree_distribution(net, net_name='', po=False, num_bins=20, gamma_val=None, plot_file=None): 
+    net_label = net_name.capitalize() if net_name else 'Network'
     ls_degrees=[net.degree(node) for node in net.nodes()]
     min_degree=min(ls_degrees)
     max_degree=max(ls_degrees)
@@ -238,7 +241,7 @@ def get_degree_distribution(net, net_name='', po=False, num_bins=20, gamma_val=N
     ax[1,1].set_title('CCDF (logarithmic scale)',fontsize=15)
     ax[1,2].set_title('PDF with logarithmic binning', fontsize=15)
 
-    fig.suptitle(f'DEGREE DISTRIBUTION: {net_name}', fontsize=18, fontweight='bold')
+    fig.suptitle(f'DEGREE DISTRIBUTION: {net_label}', fontsize=18, fontweight='bold')
     fig.tight_layout()
     if plot_file is None: 
         plot_name = net_name.replace(' ', '_') if net_name else 'network' 

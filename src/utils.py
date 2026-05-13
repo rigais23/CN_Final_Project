@@ -2,6 +2,8 @@ import heapq
 import os
 from pathlib import Path
 
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import networkx as nx
 import numpy as np
@@ -63,11 +65,16 @@ def lcc_relative_size(G, n_original):
 
 
 def plot_failure_attack(curves, thresholds, net_name, plot_file):
-    colors = {'random_failure': 'lightblue', 'degree_attack': 'cornflowerblue', 'betweenness_attack': 'darkblue'}
-    labels = {'random_failure': 'Random failure', 'degree_attack': 'Degree attack', 'betweenness_attack': 'Betweenness attack'}
+    net_label = net_name.capitalize()
+    colors = {'random_failure': 'lightblue', 'degree_attack': 'cornflowerblue', 'betweenness_attack': 'darkblue', 'disease_genes_attack': '#0077B6'}
+    labels = {'random_failure': 'Random failure', 'degree_attack': 'Degree attack', 'betweenness_attack': 'Betweenness attack', 'disease_genes_attack': 'Disease genes attack'}
+    strategy_order = ['random_failure', 'degree_attack', 'betweenness_attack', 'disease_genes_attack']
+    available_strategies = set(curves['strategy'])
 
     fig, ax = plt.subplots(figsize=(8, 6))
-    for strategy in ['random_failure', 'degree_attack', 'betweenness_attack']:
+    for strategy in strategy_order:
+        if strategy not in available_strategies:
+            continue
         data = curves[curves['strategy'] == strategy].sort_values('fraction_removed')
         x = data['fraction_removed'].to_numpy()
         y = data['relative_lcc_size'].to_numpy()
@@ -77,11 +84,12 @@ def plot_failure_attack(curves, thresholds, net_name, plot_file):
         if strategy == 'random_failure':
             ax.fill_between(x, y - yerr, y + yerr, color=colors[strategy], alpha=0.2)
 
-        threshold = thresholds.loc[thresholds['strategy'] == strategy, 'fraction_removed_threshold'].iloc[0]
+        threshold_values = thresholds.loc[thresholds['strategy'] == strategy, 'fraction_removed_threshold']
+        threshold = threshold_values.iloc[0] if not threshold_values.empty else np.nan
         if not pd.isna(threshold):
             ax.axvline(threshold, color=colors[strategy], linestyle='--', linewidth=1.5, alpha=0.8, label=f'{labels[strategy]} threshold ({threshold:.2f})')
 
-    ax.set_title(f'FAILURES AND ATTACKS: {net_name}', fontsize=14, fontweight='bold')
+    ax.set_title(f'FAILURES AND ATTACKS: {net_label}', fontsize=14, fontweight='bold')
     ax.set_xlabel('fraction of nodes removed', fontsize=12)
     ax.set_ylabel('relative LCC size', fontsize=12)
     ax.set_ylim(-0.02, 1.02)
@@ -125,6 +133,7 @@ def compute_stability(label_runs):
 
 
 def plot_community_metrics(metrics, net_name, plot_file):
+    net_label = net_name.capitalize()
     fig, axes = plt.subplots(1, 2, figsize=(11, 4))
     colors = ['lightblue', 'lightskyblue', 'cornflowerblue', 'royalblue', 'darkblue']
 
@@ -136,13 +145,14 @@ def plot_community_metrics(metrics, net_name, plot_file):
     axes[1].set_title('Modularity', fontsize=14)
     axes[1].set_ylabel('modularity')
 
-    fig.suptitle(f'COMMUNITY DETECTION: {net_name}', fontsize=16, fontweight='bold')
+    fig.suptitle(f'COMMUNITY DETECTION: {net_label}', fontsize=16, fontweight='bold')
     fig.tight_layout()
     fig.savefig(plot_file, dpi=300, bbox_inches='tight')
     plt.close(fig)
 
 
 def plot_communities(G, assignments, net_name, plot_file):
+    net_label = net_name.capitalize()
     algorithms = [column for column in assignments.columns if column != 'node']
     nodes = assignments['node'].tolist()
     G_plot = G.subgraph(nodes).copy()
@@ -170,7 +180,7 @@ def plot_communities(G, assignments, net_name, plot_file):
         ax.set_title('DCSBM' if algorithm == 'DCSBM' else algorithm.capitalize(), fontsize=12)
         ax.axis('off')
 
-    fig.suptitle(f'COMMUNITIES: {net_name}', fontsize=16, fontweight='bold')
+    fig.suptitle(f'COMMUNITIES: {net_label}', fontsize=16, fontweight='bold')
     fig.tight_layout()
     fig.savefig(plot_file, dpi=300, bbox_inches='tight')
     plt.close(fig)

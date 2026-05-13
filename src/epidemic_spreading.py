@@ -2,6 +2,8 @@ import os
 import numpy as np
 import pandas as pd
 import networkx as nx
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
 from src.utils import SEED, seeds_random, seeds_top_hubs, seeds_disease_genes
@@ -97,27 +99,43 @@ def run_sir(G, seeds, lambda_, mu, max_steps=500, remove_R=False, rng=None):
 ##############################
 # PARAMETER SWEEP
 ##############################
-def epidemic_threshold_sweep(G, lambda_values, mu=0.1, n_seeds=1, n_reps=10, max_steps=300, seed=SEED):
+def epidemic_threshold_sweep(G, lambda_values, mu=0.1, n_seeds=1, n_reps=30, max_steps=300, seed=SEED):
     """
     Sweep lambda around the epidemic threshold.
     """
     rows = []
-    nodes = list(G.nodes())
+    
     for lambda_ in lambda_values:
         final_Rs = []
+        extinction_times = []
+        
         for i in range(n_reps):
             rng = np.random.default_rng(seed + i)
             seeds = seeds_random(G, n_seeds, rng)
+            
             df = run_sir(G, seeds, lambda_=lambda_, mu=mu,
                          max_steps=max_steps, rng=rng)
+                         
+            # 1. Calculate Final R
             final_Rs.append(df['frac_R'].iloc[-1])
+            
+            # 2. Calculate Extinction Time (Steps until I = 0)
+            extinct = df[df['frac_I'] == 0]
+            if not extinct.empty:
+                t = int(extinct['step'].iloc[0])
+            else:
+                t = int(df['step'].iloc[-1]) # Default to max steps if it never hits 0
+            
+            extinction_times.append(t)
+            
         rows.append({
             'lambda_': lambda_,
             'mean_final_R': float(np.mean(final_Rs)),
             'std_final_R': float(np.std(final_Rs)),
+            'mean_extinction_time': float(np.mean(extinction_times))
         })
-    return pd.DataFrame(rows) # DataFrame with [lambda_, mean_final_R, std_final_R].
-
+        
+    return pd.DataFrame(rows) # DataFrame with [lambda_, mean_final_R, std_final_R, mean_extinction_time].
 
 ##############################
 # FULL ANALYSIS
@@ -202,9 +220,9 @@ def get_sir_analysis(G, net_name, results_dir, lambda_=0.05, mu=0.1, n_seeds=1, 
     summary = pd.DataFrame(summary_rows)
 
     # Epidemic threshold sweep
-    lambda_values = np.linspace(0.01, 0.3, 30)
+    lambda_values =  np.logspace(-3, -0.5, 40)
     sweep_df = epidemic_threshold_sweep(G, lambda_values, mu=mu,
-                                        n_seeds=n_seeds, n_reps=5,
+                                        n_seeds=n_seeds, n_reps=30,
                                         max_steps=max_steps, seed=SEED)
 
     # Save
@@ -212,8 +230,15 @@ def get_sir_analysis(G, net_name, results_dir, lambda_=0.05, mu=0.1, n_seeds=1, 
     summary.to_csv(os.path.join(results_dir, f'{net_name}_sir_summary.csv'), index=False)
     sweep_df.to_csv(os.path.join(results_dir, f'{net_name}_sir_sweep.csv'), index=False)
 
+    # Plots
     plot_sir(curves, sweep_df, net_name,
              os.path.join(results_dir, f'{net_name}_sir.png'))
+    
+    plot_epidemic_diagram(curves, net_name,
+                           os.path.join(results_dir, f'{net_name}_sir_epidemic_diagram.png'))
+    
+    plot_time_to_extinction(curves, net_name,
+                            os.path.join(results_dir, f'{net_name}_sir_time_to_extinction.png'))
 
     return curves, summary, sweep_df
 
@@ -222,6 +247,7 @@ def get_sir_analysis(G, net_name, results_dir, lambda_=0.05, mu=0.1, n_seeds=1, 
 # PLOTTING
 ##############################
 def plot_sir(curves, sweep_df, net_name, plot_file):
+    net_label = net_name.capitalize()
     colors = {
         'random':       'lightblue',
         'hub':          'cornflowerblue',
@@ -267,7 +293,136 @@ def plot_sir(curves, sweep_df, net_name, plot_file):
         ax.spines['top'].set_visible(False)
         ax.spines['right'].set_visible(False)
 
-    fig.suptitle(f'SIR DYSFUNCTION PROPAGATION: {net_name}', fontsize=15, fontweight='bold')
+    fig.suptitle(f'SIR DYSFUNCTION PROPAGATION: {net_label}', fontsize=15, fontweight='bold')
     fig.tight_layout()
     fig.savefig(plot_file, dpi=300, bbox_inches='tight')
+    plt.close(fig)
+
+
+def plot_epidemic_diagram(curves, net_name, plot_file):
+    """
+    Classic SIR epidemic diagram: S, I, R all on the same axes, with one panel per seeding strategy.
+    """
+    net_label = net_name.capitalize()
+    strategies = ['random', 'hub', 'disease_gene']
+    labels_strat = {'random': 'Random seed', 'hub': 'Hub seed', 'disease_gene': 'Disease-gene seed'}
+    colors = {'frac_S': 'lightblue', 'frac_I': 'cornflowerblue', 'frac_R': 'darkblue'}
+    compartment_labels = {'frac_S': 'S (functional)', 'frac_I': 'I (misfolded)', 'frac_R': 'R (degraded)'}
+
+    fig, axes = plt.subplots(1, 3, figsize=(15, 5), sharey=True)
+
+    for ax, strategy in zip(axes, strategies):
+        grp = curves[curves['strategy'] == strategy].sort_values('step')
+        for compartment in ['frac_S', 'frac_I', 'frac_R']:
+            ax.plot(grp['step'], grp[compartment],
+                    color=colors[compartment],
+                    label=compartment_labels[compartment],
+                    linewidth=2)
+        ax.set_title(labels_strat[strategy], fontsize=12)
+        ax.set_xlabel('Timestep')
+        ax.set_ylabel('Fraction of nodes')
+        ax.legend(frameon=False, fontsize=9)
+        ax.spines['top'].set_visible(False)
+        ax.spines['right'].set_visible(False)
+        ax.set_ylim(-0.02, 1.02)
+
+    fig.suptitle(f'EPIDEMIC DIAGRAM: {net_label}', fontsize=15, fontweight='bold')
+    fig.tight_layout()
+    fig.savefig(plot_file, dpi=300, bbox_inches='tight')
+    plt.close(fig)
+
+
+def plot_time_to_extinction(curves, net_name, plot_file):
+    """
+    Time to extinction: first timestep where I = 0.
+    """
+    net_label = net_name.capitalize()
+    strategies = ['random', 'hub', 'disease_gene']
+    labels_strat = {'random': 'Random seed', 'hub': 'Hub seed', 'disease_gene': 'Disease-gene seed'}
+    colors = ['lightblue', 'cornflowerblue', 'darkblue']
+
+    extinction_times = []
+    for strategy in strategies:
+        grp = curves[curves['strategy'] == strategy].sort_values('step').reset_index(drop=True)
+        extinct = grp[grp['frac_I'] == 0]
+        t_ext = int(extinct['step'].iloc[0]) if not extinct.empty else int(grp['step'].iloc[-1])
+        extinction_times.append(t_ext)
+
+    fig, ax = plt.subplots(figsize=(7, 5))
+    bars = ax.bar([labels_strat[s] for s in strategies], extinction_times, color=colors)
+    ax.bar_label(bars, labels=[f'{t} steps' for t in extinction_times], padding=3, fontsize=10)
+    ax.set_title(f'TIME TO EXTINCTION: {net_label}', fontsize=13, fontweight='bold')
+    ax.set_ylabel('Timesteps until I = 0')
+    ax.set_ylim(0, max(extinction_times) * 1.2)
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    fig.tight_layout()
+    fig.savefig(plot_file, dpi=300, bbox_inches='tight')
+    plt.close(fig)
+
+def plot_cross_network_comparison(sweep_dfs_by_mu, results_dir):
+    colors = {'breast': 'lightblue', 'lung': 'cornflowerblue', 'ovarian': 'darkblue'}
+    mu_values = list(sweep_dfs_by_mu.keys())
+    n_mu = len(mu_values)
+
+    fig, axes = plt.subplots(n_mu, 3, figsize=(21, 5 * n_mu))  # 3 columns now
+
+    if n_mu == 1:
+        axes = [axes]
+
+    for i, mu in enumerate(mu_values):
+        sweep_dfs = sweep_dfs_by_mu[mu]
+        ax_left, ax_right, ax_log = axes[i]  # unpack third axis
+
+        # ── Left: final R fraction vs lambda (linear) ──
+        for net_name, sweep_df in sweep_dfs.items():
+            color = colors.get(net_name, '#333333')
+            ax_left.plot(sweep_df['lambda_'], sweep_df['mean_final_R'],
+                         color=color, label=net_name.capitalize(),
+                         linewidth=2, marker='o', markersize=3)
+            ax_left.fill_between(sweep_df['lambda_'],
+                                 sweep_df['mean_final_R'] - sweep_df['std_final_R'],
+                                 sweep_df['mean_final_R'] + sweep_df['std_final_R'],
+                                 color=color, alpha=0.15)
+        ax_left.set_title(f'SIR EPIDEMIC DIAGRAM (μ = {mu})', fontsize=13, fontweight='bold')
+        ax_left.set_xlabel('λ')
+        ax_left.set_ylabel('final R fraction (total damage)')
+        ax_left.legend(frameon=False, fontsize=10)
+        ax_left.spines[['top', 'right']].set_visible(False)
+
+        # ── Centre: time to extinction vs lambda ──
+        for net_name, sweep_df in sweep_dfs.items():
+            color = colors.get(net_name, '#333333')
+            if 'mean_extinction_time' in sweep_df.columns:
+                ax_right.plot(sweep_df['lambda_'], sweep_df['mean_extinction_time'],
+                              color=color, label=net_name.capitalize(),
+                              linewidth=2, marker='o', markersize=3)
+            else:
+                print(f"Warning: 'mean_extinction_time' not found for {net_name}")
+        ax_right.set_title(f'TIME TO EXTINCTION (μ = {mu})', fontsize=13, fontweight='bold')
+        ax_right.set_xlabel('λ')
+        ax_right.set_ylabel('t (steps to I = 0)')
+        ax_right.legend(frameon=False, fontsize=10)
+        ax_right.spines[['top', 'right']].set_visible(False)
+
+        # ── Right: final R fraction vs lambda (log x-axis) ──
+        for net_name, sweep_df in sweep_dfs.items():
+            color = colors.get(net_name, '#333333')
+            ax_log.plot(sweep_df['lambda_'], sweep_df['mean_final_R'],
+                        color=color, label=net_name.capitalize(),
+                        linewidth=2, marker='o', markersize=3)
+            ax_log.fill_between(sweep_df['lambda_'],
+                                sweep_df['mean_final_R'] - sweep_df['std_final_R'],
+                                sweep_df['mean_final_R'] + sweep_df['std_final_R'],
+                                color=color, alpha=0.15)
+        ax_log.set_xscale('log')
+        ax_log.set_title(f'EPIDEMIC THRESHOLD (μ = {mu})', fontsize=13, fontweight='bold')
+        ax_log.set_xlabel('λ (log scale)')
+        ax_log.set_ylabel('final R fraction')
+        ax_log.legend(frameon=False, fontsize=10)
+        ax_log.spines[['top', 'right']].set_visible(False)
+
+    fig.tight_layout()
+    fig.savefig(os.path.join(results_dir, 'sir_cross_network_comparison_multi_mu.png'),
+                dpi=300, bbox_inches='tight')
     plt.close(fig)
