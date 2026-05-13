@@ -3,8 +3,9 @@ import numpy as np
 import pandas as pd
 import networkx as nx
 import matplotlib
-matplotlib.use('Agg')
+matplotlib.use('Agg', force=True)
 import matplotlib.pyplot as plt
+plt.ioff()
 
 from src.utils import SEED, seeds_random, seeds_top_hubs, seeds_disease_genes
 
@@ -297,6 +298,7 @@ def plot_sir(curves, sweep_df, net_name, plot_file):
     fig.tight_layout()
     fig.savefig(plot_file, dpi=300, bbox_inches='tight')
     plt.close(fig)
+    plt.close('all')
 
 
 def plot_epidemic_diagram(curves, net_name, plot_file):
@@ -330,6 +332,7 @@ def plot_epidemic_diagram(curves, net_name, plot_file):
     fig.tight_layout()
     fig.savefig(plot_file, dpi=300, bbox_inches='tight')
     plt.close(fig)
+    plt.close('all')
 
 
 def plot_time_to_extinction(curves, net_name, plot_file):
@@ -359,6 +362,7 @@ def plot_time_to_extinction(curves, net_name, plot_file):
     fig.tight_layout()
     fig.savefig(plot_file, dpi=300, bbox_inches='tight')
     plt.close(fig)
+    plt.close('all')
 
 def plot_cross_network_comparison(sweep_dfs_by_mu, results_dir):
     colors = {'breast': 'lightblue', 'lung': 'cornflowerblue', 'ovarian': 'darkblue'}
@@ -426,3 +430,4 @@ def plot_cross_network_comparison(sweep_dfs_by_mu, results_dir):
     fig.savefig(os.path.join(results_dir, 'sir_cross_network_comparison_multi_mu.png'),
                 dpi=300, bbox_inches='tight')
     plt.close(fig)
+    plt.close('all')

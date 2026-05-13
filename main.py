@@ -1,4 +1,11 @@
 import os
+
+os.environ['MPLBACKEND'] = 'Agg'
+
+import matplotlib
+matplotlib.use('Agg', force=True)
+matplotlib.interactive(False)
+
 import pandas as pd
 
 from src.utils import load_network, translate_genes_to_string_ids

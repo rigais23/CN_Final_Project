@@ -3,8 +3,9 @@ import json
 import networkx as nx
 import numpy as np
 import matplotlib
-matplotlib.use('Agg')
+matplotlib.use('Agg', force=True)
 import matplotlib.pyplot as plt
+plt.ioff()
 
 from scipy.stats import poisson
 from collections import Counter 
@@ -248,4 +249,5 @@ def get_degree_distribution(net, net_name='', po=False, num_bins=20, gamma_val=N
         plot_file = os.path.join(RESULTS_DIR, f'{plot_name}_degree_distribution.png') 
     fig.savefig(plot_file, dpi=300, bbox_inches='tight') 
     plt.close(fig) 
+    plt.close('all') 
     return plot_file 

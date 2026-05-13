@@ -3,8 +3,9 @@ import os
 from pathlib import Path
 
 import matplotlib
-matplotlib.use('Agg')
+matplotlib.use('Agg', force=True)
 import matplotlib.pyplot as plt
+plt.ioff()
 import networkx as nx
 import numpy as np
 import pandas as pd
@@ -97,6 +98,7 @@ def plot_failure_attack(curves, thresholds, net_name, plot_file):
     fig.tight_layout()
     fig.savefig(plot_file, dpi=300, bbox_inches='tight')
     plt.close(fig)
+    plt.close('all')
 
 
 ##############################
@@ -149,6 +151,7 @@ def plot_community_metrics(metrics, net_name, plot_file):
     fig.tight_layout()
     fig.savefig(plot_file, dpi=300, bbox_inches='tight')
     plt.close(fig)
+    plt.close('all')
 
 
 def plot_communities(G, assignments, net_name, plot_file):
@@ -184,6 +187,7 @@ def plot_communities(G, assignments, net_name, plot_file):
     fig.tight_layout()
     fig.savefig(plot_file, dpi=300, bbox_inches='tight')
     plt.close(fig)
+    plt.close('all')
 
 
 ##############################
