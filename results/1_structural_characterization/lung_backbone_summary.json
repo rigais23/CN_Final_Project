@@ -1,0 +1,13 @@
+{
+    "network": "lung",
+    "method": "k_core",
+    "max_core_k": 37,
+    "original_nodes": 1684,
+    "original_edges": 31398,
+    "lcc_nodes": 1684,
+    "lcc_edges": 31398,
+    "backbone_nodes": 294,
+    "backbone_edges": 8597,
+    "node_percentage": 17.458432304038006,
+    "edge_percentage": 27.380724886935475
+}

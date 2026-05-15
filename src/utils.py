@@ -71,8 +71,9 @@ def plot_failure_attack(curves, thresholds, net_name, plot_file):
     labels = {'random_failure': 'Random failure', 'degree_attack': 'Degree attack', 'betweenness_attack': 'Betweenness attack', 'disease_genes_attack': 'Disease genes attack'}
     strategy_order = ['random_failure', 'degree_attack', 'betweenness_attack', 'disease_genes_attack']
     available_strategies = set(curves['strategy'])
+    show_legend = net_name == 'breast'
 
-    fig, ax = plt.subplots(figsize=(8, 6))
+    fig, ax = plt.subplots(figsize=(7.2, 4.0))
     for strategy in strategy_order:
         if strategy not in available_strategies:
             continue
@@ -81,20 +82,22 @@ def plot_failure_attack(curves, thresholds, net_name, plot_file):
         y = data['relative_lcc_size'].to_numpy()
         yerr = data['relative_lcc_std'].fillna(0).to_numpy()
 
-        ax.plot(x, y, color=colors[strategy], label=labels[strategy], linewidth=2)
+        ax.plot(x, y, color=colors[strategy], label=labels[strategy], linewidth=2.3)
         if strategy == 'random_failure':
             ax.fill_between(x, y - yerr, y + yerr, color=colors[strategy], alpha=0.2)
 
         threshold_values = thresholds.loc[thresholds['strategy'] == strategy, 'fraction_removed_threshold']
         threshold = threshold_values.iloc[0] if not threshold_values.empty else np.nan
         if not pd.isna(threshold):
-            ax.axvline(threshold, color=colors[strategy], linestyle='--', linewidth=1.5, alpha=0.8, label=f'{labels[strategy]} threshold ({threshold:.2f})')
+            ax.axvline(threshold, color=colors[strategy], linestyle='--', linewidth=1.7, alpha=0.8)
 
-    ax.set_title(f'FAILURES AND ATTACKS: {net_label}', fontsize=14, fontweight='bold')
-    ax.set_xlabel('fraction of nodes removed', fontsize=12)
-    ax.set_ylabel('relative LCC size', fontsize=12)
+    ax.set_title(f'FAILURES AND ATTACKS: {net_label}', fontsize=16, fontweight='bold')
+    ax.set_xlabel('fraction of nodes removed', fontsize=15)
+    ax.set_ylabel('relative LCC size', fontsize=15)
     ax.set_ylim(-0.02, 1.02)
-    ax.legend(frameon=False)
+    ax.tick_params(axis='both', labelsize=13)
+    if show_legend:
+        ax.legend(frameon=False, fontsize=10, loc='upper right')
     fig.tight_layout()
     fig.savefig(plot_file, dpi=300, bbox_inches='tight')
     plt.close(fig)
@@ -161,13 +164,8 @@ def plot_communities(G, assignments, net_name, plot_file):
     G_plot = G.subgraph(nodes).copy()
     pos = nx.spring_layout(G_plot, seed=SEED, iterations=40)
 
-    fig = plt.figure(figsize=(13, 8))
-    grid = fig.add_gridspec(2, 6)
-    axes = [fig.add_subplot(grid[0, 0:2]),
-            fig.add_subplot(grid[0, 2:4]),
-            fig.add_subplot(grid[0, 4:6]),
-            fig.add_subplot(grid[1, 1:3]),
-            fig.add_subplot(grid[1, 3:5])]
+    fig, axes = plt.subplots(1, len(algorithms), figsize=(18, 4.4))
+    axes = np.atleast_1d(axes)
     cmap = plt.cm.Blues
 
     for i, algorithm in enumerate(algorithms):
@@ -180,11 +178,11 @@ def plot_communities(G, assignments, net_name, plot_file):
 
         nx.draw_networkx_edges(G_plot, pos, ax=ax, edge_color='lightsteelblue', width=0.15, alpha=0.12)
         nx.draw_networkx_nodes(G_plot, pos, ax=ax, node_color=node_colors, node_size=7, linewidths=0, alpha=0.95)
-        ax.set_title('DCSBM' if algorithm == 'DCSBM' else algorithm.capitalize(), fontsize=12)
+        ax.set_title('DCSBM' if algorithm == 'DCSBM' else algorithm.capitalize(), fontsize=15)
         ax.axis('off')
 
-    fig.suptitle(f'COMMUNITIES: {net_label}', fontsize=16, fontweight='bold')
-    fig.tight_layout()
+    fig.suptitle(f'COMMUNITIES: {net_label}', fontsize=20, fontweight='bold')
+    fig.tight_layout(rect=[0, 0, 1, 0.9], w_pad=0.2)
     fig.savefig(plot_file, dpi=300, bbox_inches='tight')
     plt.close(fig)
     plt.close('all')

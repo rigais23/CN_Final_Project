@@ -11,6 +11,7 @@ import pandas as pd
 from src.utils import load_network, translate_genes_to_string_ids
 from src.macroscopic import get_macroscopic_descriptors, get_degree_distribution
 from src.microscopic import get_microscopic_descriptors
+from src.backbone import get_backbone_analysis, get_consensus_backbone, plot_backbone_networks
 from src.percolation import get_failure_attack_analysis
 from src.community import get_community_detection
 from src.epidemic_spreading import get_sir_analysis, plot_cross_network_comparison
@@ -40,7 +41,6 @@ def main(net_name, disease_genes=None, mu=0.1):
     disease_genes = [] if disease_genes is None else disease_genes
     valid_disease_genes = [node for node in disease_genes if node in G.nodes]
     n_seeds_to_use = max(1, len(valid_disease_genes))
-
     
     # 1. STRUCTURAL CHARACTERIZATION
     out_path_macro = os.path.join(STRUCTURAL_DIR, net + '_macro.json')
@@ -48,6 +48,7 @@ def main(net_name, disease_genes=None, mu=0.1):
     get_degree_distribution(G, net, plot_file=os.path.join(STRUCTURAL_DIR, net + '_degree_distribution.png'))
     out_path_micro = os.path.join(STRUCTURAL_DIR, net + '_micro.json')
     get_microscopic_descriptors(G, out_path_micro)
+    get_backbone_analysis(G, net, STRUCTURAL_DIR)
 
     # 2. PERCOLATION: ATTACKS AND FAILURES
     get_failure_attack_analysis(G, net, PERCOLATION_DIR, out_path_micro, disease_genes=valid_disease_genes)
@@ -63,11 +64,15 @@ def main(net_name, disease_genes=None, mu=0.1):
 
     return G, curves, summary, sweep_df
 
+
+
+
 if __name__ == '__main__':
     disgenet_file = os.path.join(DATA_DIR, 'disgenet.tsv')
     disgenet = pd.read_csv(disgenet_file, sep='\t') if os.path.exists(disgenet_file) else None
 
     sweep_dfs_by_mu = {}
+    networks = {}
     mu_list = [0.1, 0.3]
 
     for mu in mu_list:
@@ -77,6 +82,9 @@ if __name__ == '__main__':
             raw_disease_genes = [] if disgenet is None else disgenet[disgenet['disease'] == net]['Gene'].tolist()
             translated_disease_genes = translate_genes_to_string_ids(raw_disease_genes) if raw_disease_genes else []
             G, curves, summary, sweep_df = main(net_name=net_name, disease_genes=translated_disease_genes, mu=mu)
+            networks[net] = G
             sweep_dfs_by_mu[mu][net] = sweep_df
 
+    get_consensus_backbone(STRUCTURAL_DIR, ['breast', 'lung', 'ovarian'])
+    plot_backbone_networks(networks, STRUCTURAL_DIR)
     plot_cross_network_comparison(sweep_dfs_by_mu, results_dir=EPIDEMIC_DIR)

@@ -1,0 +1,13 @@
+{
+    "network": "breast",
+    "method": "k_core",
+    "max_core_k": 37,
+    "original_nodes": 1781,
+    "original_edges": 33421,
+    "lcc_nodes": 1777,
+    "lcc_edges": 33419,
+    "backbone_nodes": 287,
+    "backbone_edges": 8323,
+    "node_percentage": 16.15081598199212,
+    "edge_percentage": 24.904994164995962
+}

@@ -1,0 +1,13 @@
+{
+    "network": "ovarian",
+    "method": "k_core",
+    "max_core_k": 37,
+    "original_nodes": 1728,
+    "original_edges": 32077,
+    "lcc_nodes": 1720,
+    "lcc_edges": 32073,
+    "backbone_nodes": 195,
+    "backbone_edges": 5615,
+    "node_percentage": 11.337209302325581,
+    "edge_percentage": 17.506937299286005
+}
